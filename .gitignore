@@ -1,0 +1,18 @@
+.DS_Store
+**/.DS_Store
+
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+__pycache__/
+*.py[cod]
+
+.venv/
+venv/
+env/
+
+.python-version
+
+# Common generated artifacts
+*.log
+*.tmp

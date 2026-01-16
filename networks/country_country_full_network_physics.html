@@ -1,0 +1,1194 @@
+<html>
+    <head>
+    <link rel="stylesheet" href="lib/vis-9.1.2/vis-network.css">
+    <link rel="stylesheet" href="lib/tom-select/tom-select.css">
+    <script src="lib/vis-9.1.2/vis-network.min.js"></script>
+    <script src="lib/tom-select/tom-select.complete.min.js"></script>
+    <script src="lib/bindings/utils.js"></script>
+
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "degree": 11, "font": {"color": "#111111"}, "group": 0, "id": "Canada", "label": "Canada", "originalLabel": "Canada", "shape": "dot", "size": 17, "title": "Canada \u2014 Community: 0", "value": 14.6332495807108}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 14, "font": {"color": "#111111"}, "group": 0, "id": "United States", "label": "United States", "originalLabel": "United States", "shape": "dot", "size": 22, "title": "United States \u2014 Community: 0", "value": 15.483314773547882}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 10, "font": {"color": "#111111"}, "group": 0, "id": "France", "label": "France", "originalLabel": "France", "shape": "dot", "size": 16, "title": "France \u2014 Community: 0", "value": 14.32455532033676}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 0, "id": "Israel", "label": "Israel", "originalLabel": "Israel", "shape": "dot", "size": 16, "title": "Israel \u2014 Community: 0", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 1, "id": "Finland", "label": "Finland", "originalLabel": "Finland", "shape": "dot", "size": 16, "title": "Finland \u2014 Community: 1", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 9, "font": {"color": "#111111"}, "group": 0, "id": "Switzerland", "label": "Switzerland", "originalLabel": "Switzerland", "shape": "dot", "size": 16, "title": "Switzerland \u2014 Community: 0", "value": 14.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 9, "font": {"color": "#111111"}, "group": 1, "id": "Netherlands", "label": "Netherlands", "originalLabel": "Netherlands", "shape": "dot", "size": 16, "title": "Netherlands \u2014 Community: 1", "value": 14.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 11, "font": {"color": "#111111"}, "group": 3, "id": "Germany", "label": "Germany", "originalLabel": "Germany", "shape": "dot", "size": 17, "title": "Germany \u2014 Community: 3", "value": 14.6332495807108}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 4, "id": "Australia", "label": "Australia", "originalLabel": "Australia", "shape": "dot", "size": 16, "title": "Australia \u2014 Community: 4", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 3, "id": "Argentina", "label": "Argentina", "originalLabel": "Argentina", "shape": "dot", "size": 16, "title": "Argentina \u2014 Community: 3", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 0, "id": "South Africa", "label": "South Africa", "originalLabel": "South Africa", "shape": "dot", "size": 16, "title": "South Africa \u2014 Community: 0", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 12, "font": {"color": "#111111"}, "group": 2, "id": "United Kingdom", "label": "United Kingdom", "originalLabel": "United Kingdom", "shape": "dot", "size": 19, "title": "United Kingdom \u2014 Community: 2", "value": 14.928203230275509}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 2, "id": "China", "label": "China", "originalLabel": "China", "shape": "dot", "size": 16, "title": "China \u2014 Community: 2", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 6, "font": {"color": "#111111"}, "group": 0, "id": "Austria", "label": "Austria", "originalLabel": "Austria", "shape": "dot", "size": 16, "title": "Austria \u2014 Community: 0", "value": 12.898979485566356}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 6, "id": "Thailand", "label": "Thailand", "originalLabel": "Thailand", "shape": "dot", "size": 16, "title": "Thailand \u2014 Community: 6", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 6, "id": "Jersey", "label": "Jersey", "originalLabel": "Jersey", "shape": "dot", "size": 16, "title": "Jersey \u2014 Community: 6", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 0, "id": "Korea, Republic of", "label": "Korea, Republic of", "originalLabel": "Korea, Republic of", "shape": "dot", "size": 16, "title": "Korea, Republic of \u2014 Community: 0", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 0, "id": "Japan", "label": "Japan", "originalLabel": "Japan", "shape": "dot", "size": 16, "title": "Japan \u2014 Community: 0", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Belgium", "label": "Belgium", "originalLabel": "Belgium", "shape": "dot", "size": 16, "title": "Belgium \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "Russian Federation", "label": "Russian Federation", "originalLabel": "Russian Federation", "shape": "dot", "size": 16, "title": "Russian Federation \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "Italy", "label": "Italy", "originalLabel": "Italy", "shape": "dot", "size": 16, "title": "Italy \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 3, "id": "Slovakia", "label": "Slovakia", "originalLabel": "Slovakia", "shape": "dot", "size": 16, "title": "Slovakia \u2014 Community: 3", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 3, "id": "Kazakhstan", "label": "Kazakhstan", "originalLabel": "Kazakhstan", "shape": "dot", "size": 16, "title": "Kazakhstan \u2014 Community: 3", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 3, "id": "Spain", "label": "Spain", "originalLabel": "Spain", "shape": "dot", "size": 16, "title": "Spain \u2014 Community: 3", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Christmas Island", "label": "Christmas Island", "originalLabel": "Christmas Island", "shape": "dot", "size": 16, "title": "Christmas Island \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 2, "id": "New Zealand", "label": "New Zealand", "originalLabel": "New Zealand", "shape": "dot", "size": 16, "title": "New Zealand \u2014 Community: 2", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 2, "id": "Poland", "label": "Poland", "originalLabel": "Poland", "shape": "dot", "size": 16, "title": "Poland \u2014 Community: 2", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 2, "id": "Hong Kong", "label": "Hong Kong", "originalLabel": "Hong Kong", "shape": "dot", "size": 16, "title": "Hong Kong \u2014 Community: 2", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Chile", "label": "Chile", "originalLabel": "Chile", "shape": "dot", "size": 16, "title": "Chile \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 2, "id": "Macao", "label": "Macao", "originalLabel": "Macao", "shape": "dot", "size": 16, "title": "Macao \u2014 Community: 2", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Serbia", "label": "Serbia", "originalLabel": "Serbia", "shape": "dot", "size": 16, "title": "Serbia \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Denmark", "label": "Denmark", "originalLabel": "Denmark", "shape": "dot", "size": 16, "title": "Denmark \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Brazil", "label": "Brazil", "originalLabel": "Brazil", "shape": "dot", "size": 16, "title": "Brazil \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 3, "id": "Greece", "label": "Greece", "originalLabel": "Greece", "shape": "dot", "size": 16, "title": "Greece \u2014 Community: 3", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 4, "id": "Saudi Arabia", "label": "Saudi Arabia", "originalLabel": "Saudi Arabia", "shape": "dot", "size": 16, "title": "Saudi Arabia \u2014 Community: 4", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 4, "id": "Norway", "label": "Norway", "originalLabel": "Norway", "shape": "dot", "size": 16, "title": "Norway \u2014 Community: 4", "value": 10.0}]);
+                  edges = new vis.DataSet([{"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "United States", "value": 6.0, "width": 6.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "France", "value": 5.0, "width": 5.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "Israel", "value": 4.0, "width": 4.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "Finland", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "Switzerland", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "Netherlands", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "Germany", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "Australia", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "Argentina", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "South Africa", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Canada", "to": "United Kingdom", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "France", "value": 5.0, "width": 5.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Germany", "value": 4.0, "width": 4.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Switzerland", "value": 3.0, "width": 3.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Israel", "value": 3.0, "width": 3.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "China", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Austria", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Thailand", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Jersey", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Argentina", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Korea, Republic of", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "South Africa", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "United Kingdom", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "United States", "to": "Japan", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Switzerland", "value": 3.0, "width": 3.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Belgium", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Israel", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Netherlands", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Austria", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Russian Federation", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Italy", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "France", "to": "Australia", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Israel", "to": "Switzerland", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Israel", "to": "Argentina", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Israel", "to": "South Africa", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Israel", "to": "United Kingdom", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "United Kingdom", "value": 3.0, "width": 3.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Austria", "value": 2.0, "width": 2.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Switzerland", "value": 2.0, "width": 2.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Slovakia", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Kazakhstan", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Argentina", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Spain", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Christmas Island", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Germany", "to": "Netherlands", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "New Zealand", "to": "United Kingdom", "value": 4.0, "width": 4.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "New Zealand", "to": "Poland", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "United Kingdom", "to": "China", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "United Kingdom", "to": "Poland", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "United Kingdom", "to": "Australia", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "United Kingdom", "to": "Hong Kong", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "United Kingdom", "to": "Argentina", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "United Kingdom", "to": "South Africa", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "United Kingdom", "to": "Austria", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Switzerland", "to": "Austria", "value": 3.0, "width": 3.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Switzerland", "to": "Netherlands", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Switzerland", "to": "Chile", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Switzerland", "to": "Christmas Island", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Austria", "to": "Chile", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "China", "to": "Hong Kong", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "China", "to": "Macao", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Netherlands", "to": "Serbia", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Netherlands", "to": "Finland", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Netherlands", "to": "Christmas Island", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Netherlands", "to": "Belgium", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Netherlands", "to": "Denmark", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Belgium", "to": "Brazil", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Kazakhstan", "to": "Slovakia", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Greece", "to": "Spain", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Spain", "to": "Argentina", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Italy", "to": "Russian Federation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "Thailand", "to": "Jersey", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Argentina", "to": "South Africa", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "Australia", "to": "Saudi Arabia", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "Australia", "to": "Norway", "value": 1.0, "width": 1.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0.15,
+            "centralGravity": 0.03,
+            "damping": 0.7,
+            "gravitationalConstant": -80.0,
+            "springConstant": 0.03,
+            "springLength": 420
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+                  window.network = network;
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<!-- SciNetX enhanced controls (legacy parity) -->
+<div style="position:sticky; bottom:0; z-index:10; width:100%; padding:10px; font-family:Arial,sans-serif; font-size:12px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; background:#f5f5f5; border-top:1px solid #ccc;">
+  <!-- Search / Jump / Community -->
+  <input title="Search by label" id="nodeSearch" type="text" placeholder="Search node label" style="width:180px;padding:6px;" onkeyup="filterNodeList()"/>
+  <select title="Jump to node" id="nodeSelect" onchange="selectNode()" style="padding:6px; min-width:180px;">
+    <option value="">Jump to node…</option>
+  </select>
+  <select multiple title="Filter by community" id="communityFilter" onchange="filterCommunity()" style="padding:6px; min-width:140px;">
+    <option value="__all__">Community: All</option>
+  </select>
+
+  <!-- Palette / Layout / Visibility -->
+  <select title="Palette" id="paletteSelect" onchange="applyPaletteSelect()" style="padding:6px;">
+    <option value="default">Palette: default</option>
+    <option value="classic">Palette: classic</option>
+    <option value="bold">Palette: bold</option>
+    <option value="pastel">Palette: pastel</option>
+    <option value="viridis">Palette: viridis</option>
+    <option value="plasma">Palette: plasma</option>
+    <option value="magma">Palette: magma</option>
+    <option value="inferno">Palette: inferno</option>
+    <option value="colorblind">Palette: colorblind</option>
+    <option value="tableau">Palette: tableau</option>
+    <option value="vivid">Palette: vivid</option>
+    <option value="dark">Palette: dark</option>
+  </select>
+  <label style="display:flex;align-items:center;gap:6px;">Layout
+    <select title="Layout" id="layoutSelect" onchange="applyLayout()" style="padding:6px;">
+      <option value="force">force</option>
+      <option value="circular">circular</option>
+      <option value="grid">grid</option>
+    </select>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="colorblindAid" onchange="toggleColorblindAid()"/> Colorblind aid</label>
+  <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="highContrast" onchange="toggleHighContrast()"/> High contrast</label>
+  <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="focusNeighbors" onchange="toggleFocusNeighbors()"/> Focus neighbors</label>
+
+  <!-- Downloads / Settings -->
+  <select title="Downloads" id="downloadSelect" onchange="handleDownload(this.value)" style="padding:6px;">
+    <option value="">Download…</option>
+    <option value="png">PNG</option>
+    <option value="svg">SVG</option>
+    <option value="pdf">PDF</option>
+  </select>
+  <select title="Settings" id="settingsSelect" onchange="handleSettings(this.value)" style="padding:6px;">
+    <option value="">Settings…</option>
+    <option value="saveSettingsFile">Save UI settings (JSON)</option>
+    <option value="loadSettingsFile">Load UI settings (JSON)</option>
+    <option value="exportPositions">Export positions (JSON)</option>
+    <option value="importPositions">Import positions (JSON)</option>
+    <option value="saveSettingsLocal">Save UI settings (browser)</option>
+    <option value="loadSettingsLocal">Load UI settings (browser)</option>
+  </select>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importPositionsFile(event)"/>
+  <input type="file" id="settingsFile" accept=".json" style="display:none" onchange="importSettingsFile(event)"/>
+
+  <!-- Labels -->
+  <label style="display:flex;align-items:center;gap:4px;">Label size
+    <input id="labelSize" title="Label size" type="number" min="8" max="30" step="1" value="16" style="width:60px;padding:4px;" onchange="applyLabelSize()"/>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;">Node size
+    <input id="nodeSizeFactor" title="Multiply node size" type="number" min="0.1" max="10" step="0.1" value="1" style="width:70px;padding:4px;" />
+    <button onclick="applyNodeSize()" style="padding:4px 6px;">Apply</button>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;">Label mode
+    <select id="labelMode" onchange="applyLabelMode()" style="padding:4px;">
+      <option value="all">All</option>
+      <option value="none">None</option>
+      <option value="top">Top-N by degree</option>
+    </select>
+    <input id="labelTopN" type="number" min="1" max="5000" step="10" value="50" style="width:70px;padding:4px;" onchange="applyLabelMode()"/>
+  </label>
+
+  <!-- Filters -->
+  <label style="display:flex;align-items:center;gap:4px;">Min edge w
+    <input id="edgeThresh" title="Hide edges below weight" type="number" min="1" step="1" value="1" style="width:60px;padding:4px;" onchange="applyEdgeThreshold()"/>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;">Top nodes (value)
+    <input id="nodeTopN" title="Show top-N nodes by value/degree proxy" type="number" min="0" step="10" value="" style="width:70px;padding:4px;" />
+    <button onclick="applyNodeTopN()" style="padding:4px 6px;">Apply</button>
+  </label>
+
+  <!-- Physics / View -->
+  <button title="Fit view" onclick="fitView()" style="padding:6px 8px;">Fit</button>
+  <button title="Reset positions/zoom" onclick="resetView()" style="padding:6px 8px;">Reset</button>
+  <button title="Stabilize once then freeze" onclick="stabilizeFreeze()" style="padding:6px 8px;">Stabilize+Freeze</button>
+  <button title="Toggle physics" onclick="togglePhysics()" style="padding:6px 8px;">Physics</button>
+
+  <!-- Zoom / Theme -->
+  <span>Zoom:</span>
+  <button title="Zoom in" onclick="zoomStep(0.1)" style="padding:6px 8px;">+</button>
+  <button title="Zoom out" onclick="zoomStep(-0.1)" style="padding:6px 8px;">-</button>
+  <input id="zoomInput" type="number" step="0.1" value="1.0" style="width:70px;padding:4px;" onchange="applyZoom()"/>
+  <select id="themeToggle" title="Theme" onchange="toggleTheme()" style="padding:6px;">
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+
+  <!-- Help / Legend / Status -->
+  <button title="Show help" onclick="toggleHelp(true)" style="padding:6px 8px;">Help</button>
+  <div id="legend" style="display:flex; gap:6px; flex-wrap:wrap; margin-left:6px;"></div>
+  <div id="statusChip" style="margin-left:auto; padding:4px 8px; border:1px solid #ccc; border-radius:12px; background:#fff; font-size:11px;">--</div>
+</div>
+<div id="helpOverlay" style="display:none; position:fixed; top:40px; right:40px; max-width:420px; background:#fff; border:1px solid #ccc; box-shadow:0 2px 8px rgba(0,0,0,0.2); padding:12px; z-index:20; font-size:12px; line-height:1.4;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <strong>Network help</strong>
+    <button onclick="toggleHelp(false)" style="padding:4px 6px;">Close</button>
+  </div>
+  <ul style="padding-left:18px; margin:0;">
+    <li><strong>Palette</strong>: recolor communities; “default” mirrors the initial PyVis colors; colorblind aid switches palette + high contrast.</li>
+    <li><strong>Layout</strong>: force (physics), circular (ring), grid (fixed grid). Switching re-applies colors/labels.</li>
+    <li><strong>Physics</strong>: toggle simulation; Stabilize+Freeze runs briefly then turns physics off.</li>
+    <li><strong>Edge weight</strong>: hide edges below the numeric threshold.</li>
+    <li><strong>Focus neighbors</strong>: hide everything except the selected node and neighbors (uncheck to clear).</li>
+    <li><strong>Labels</strong>: set size; show/hide; top-N labels by degree proxy (value).</li>
+    <li><strong>Downloads</strong>: PNG/SVG/PDF; export/import positions.</li>
+    <li><strong>Settings</strong>: save/load UI settings (browser or JSON).</li>
+    <li><strong>Theme/zoom</strong>: light/dark toggle, zoom controls, fit/reset.</li>
+  </ul>
+</div>
+<script type="text/javascript">
+let _initialPositions = null;
+let _initialView = null;
+let _allNodesForSelect = [];
+let _commNodesMap = {};
+let _theme = 'light';
+let _physicsOn = true;
+let _nodeSize = 14;
+let _edgeThreshold = 1;
+let _lastPalette = 'default';
+let _statusCounts = '';
+const _visDefaultColors = ["#97c2fc","#fb7e81","#7be141","#ffa807","#eb7df4","#c0c0c0","#c2fabc","#fecdab","#b5ead7","#ffdac1","#ffb7b2","#ff9aa2","#c7ceea","#ffb480","#9ad0f5","#f98fe2","#a2f5a2","#ffb480","#b0b0b0","#4cc9f0"];
+const _palettes = {
+  default: _visDefaultColors.slice(),
+  classic: ["#97c2fc","#fb7e81","#6ad56b","#c17aff","#f7d35c","#9ad0f5","#f98fe2","#a2f5a2","#ffb480","#b0b0b0","#4cc9f0","#f72585","#7209b7","#3a0ca3","#4361ee","#4c956c","#ffba08","#ff6d00","#ef476f","#118ab2"],
+  bold:    ["#3366cc","#dc3912","#ff9900","#109618","#990099","#0099c6","#dd4477","#66aa00","#b82e2e","#316395","#4cc9f0","#f72585","#7209b7","#3a0ca3","#4361ee","#4c956c","#ffba08","#ff6d00","#ef476f","#118ab2"],
+  pastel:  ["#aec7e8","#ffbb78","#98df8a","#c5b0d5","#f7b6d2","#c7e9c0","#ffdea6","#b3b3b3","#c49c94","#c6dbef","#c4e5f2","#f7c0db","#d8c2f0","#c7d4f6","#c6f0e1","#f6e3c6","#ffd8b5","#e5e5e5","#e0c7b7","#d9e3f5"],
+  viridis: ["#440154","#482777","#3e4989","#31688e","#26828e","#1f9e89","#35b779","#6ece58","#b5de2b","#fde725","#3a0f70","#453781","#375a8c","#2f6f8e","#277f8e","#1f968b","#32b67a","#73d055","#b8de29","#e7e419"],
+  plasma:  ["#0d0887","#4c02a1","#7e03a8","#a31e9a","#c43b82","#dd5e66","#f48849","#febd2a","#f0f921","#fac228","#f98e09","#e16462","#b12a90","#7201a8","#41049d","#2f0f6b","#2f1a4f","#481467","#5b136e","#7d1a6c"],
+  magma:   ["#000004","#1b0c41","#4f0a6d","#7c1d6f","#a42c60","#c43c4e","#de614d","#f48861","#fbaa82","#fcfdbf","#3b0f70","#5c1f79","#7e2f7f","#a23f82","#c6517f","#de6d73","#f48861","#f9a065","#fcb97d","#f7d6af"],
+  inferno: ["#000004","#1b0c41","#4a0c6b","#781c6d","#a52c60","#cc3f4a","#e55c30","#f7841d","#fdca26","#f9f87a","#3d0f71","#59157c","#731f82","#8c2981","#a3347e","#ba436d","#d55353","#ed6925","#fb9b06","#f6d746"],
+  colorblind: ["#0072B2","#E69F00","#009E73","#D55E00","#CC79A7","#F0E442","#56B4E9","#000000","#999999","#117733","#332288","#88CCEE","#DDCC77","#CC6677","#882255","#44AA99","#DDDDDD","#AA4499","#6699CC","#AA4466"],
+  tableau: ["#4E79A7","#F28E2B","#E15759","#76B7B2","#59A14F","#EDC948","#B07AA1","#FF9DA7","#9C755F","#BAB0AC","#0D3B66","#F95738","#EE964B","#F4D35E","#95B8D1","#3D5A80","#98C1D9","#E0FBFC","#EE6C4D","#293241"],
+  vivid: ["#e58606","#5d69b1","#52bca3","#99c945","#cc61b0","#24796c","#daa51b","#2f8ac4","#764e9f","#ed645a","#cc3a8e","#a5aa99","#0b775e","#c93312","#f2b701","#3b9ab2","#e1a11a","#b40f20","#5c4d7d","#00a9a7"],
+  dark: ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666","#8dd3c7","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#bc80bd","#ccebc5","#ffed6f","#1f78b4","#b2df8a"]
+};
+const _colors = {
+  light: {bg: '#ffffff', font: '#111111'},
+  dark:  {bg: '#111111', font: '#f5f5f5'}
+};
+let _paletteName = 'default';
+function _paletteList(){return _palettes[_paletteName] || _palettes.default;}
+function setStatus(msg){const chip=document.getElementById('statusChip'); if(!chip)return; const suffix=_statusCounts?` | ${_statusCounts}`:''; chip.textContent=msg+suffix;}
+function hideLoadingBar(){
+  const lb = document.getElementById('loadingBar');
+  if (!lb) return;
+  try { lb.style.opacity = 0; } catch(e){}
+  try { setTimeout(function () { try { lb.style.display = 'none'; } catch(e){} }, 250); } catch(e){}
+}
+function initControls(){
+  if(!window.network) return;
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  const comms = [...new Set(nodes.map(n => n.group).filter(g => g!==undefined && g!==null))];
+  _statusCounts = `Nodes: ${nodes.length} | Edges: ${edges.length} | Comm: ${comms.length}`;
+  setStatus('Initializing...');
+  try {
+    if (!_initialColorMap) {
+      if (window._groupColors && Object.keys(window._groupColors).length) {
+        _initialColorMap = {...window._groupColors};
+      }
+      if (!_initialColorMap || !Object.keys(_initialColorMap).length) {
+        const byGroup = {};
+        if (network.options && network.options.groups) {
+          Object.keys(network.options.groups).forEach(g => {
+            const cfg = network.options.groups[g];
+            if (cfg && cfg.color) {
+              if (typeof cfg.color === 'string') byGroup[g] = cfg.color;
+              if (cfg.color.background) byGroup[g] = cfg.color.background;
+            }
+          });
+        }
+        if (Object.keys(byGroup).length) _initialColorMap = byGroup;
+      }
+      if (!_initialColorMap || !Object.keys(_initialColorMap).length) {
+        const byGroup = {};
+        nodes.forEach(n => {
+          const gKey = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+          let c = null;
+          if (n.color) {
+            if (typeof n.color === 'string') c = n.color;
+            if (!c && n.color.background) c = n.color.background;
+            if (!c && n.color.color) c = n.color.color;
+          }
+          if (c && !byGroup[gKey]) byGroup[gKey] = c;
+        });
+        if (Object.keys(byGroup).length) _initialColorMap = byGroup;
+      }
+      if (!_initialColorMap || !Object.keys(_initialColorMap).length) {
+        const byGroup = {};
+        const sortedGroups = comms.slice().sort((a,b)=> {
+          const na=Number(a), nb=Number(b);
+          const aNum=!isNaN(na), bNum=!isNaN(nb);
+          if (aNum && bNum) return na-nb;
+          if (aNum) return -1;
+          if (bNum) return 1;
+          return (''+a).localeCompare(''+b);
+        });
+        sortedGroups.forEach((g, idx) => {
+          byGroup[String(g)] = _visDefaultColors[idx % _visDefaultColors.length];
+        });
+        _initialColorMap = byGroup;
+      }
+    }
+  } catch(e){}
+  const sel = document.getElementById('communityFilter');
+  comms.sort((a,b)=>a-b).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.text = 'Community ' + c;
+    sel.appendChild(opt);
+  });
+  _allNodesForSelect = nodes.slice().sort((a,b)=> (''+a.label).localeCompare(''+b.label));
+  _commNodesMap = {};
+  nodes.forEach(n => {
+    const c = (n.group === undefined || n.group === null) ? "__none__" : n.group;
+    if (!_commNodesMap[c]) _commNodesMap[c] = [];
+    _commNodesMap[c].push(n);
+  });
+  try {
+    const byGroup = {};
+    nodes.forEach(n => {
+      let c = null;
+      if (n.color) {
+        if (typeof n.color === 'string') c = n.color;
+        if (!c && n.color.background) c = n.color.background;
+        if (!c && n.color.color) c = n.color.color;
+      }
+      const g = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+      if (c && !byGroup[g]) byGroup[g] = c;
+    });
+    if (Object.keys(byGroup).length) {
+      _initialColorMap = byGroup;
+    }
+  } catch(e){}
+  try {
+    const cf = document.getElementById('communityFilter');
+    if (cf && cf.options.length) {
+      Array.from(cf.options).forEach(o => { o.selected = (o.value === '__all__'); });
+    }
+  } catch(e){}
+  populateNodeSelect(_allNodesForSelect);
+  try {
+    const ps = document.getElementById('paletteSelect');
+    if (ps) ps.value = _paletteName;
+    applyPaletteSelect();
+  } catch(e) { console.log('palette init failed', e); }
+  try {
+    _initialPositions = network.getPositions();
+    _initialView = {pos: network.getViewPosition(), scale: network.getScale()};
+  } catch(e){}
+  buildLegend(nodes);
+  colorEdgesBySource(nodes, edges);
+  applyTheme(_theme, true);
+  try {
+    const ls = document.getElementById('layoutSelect');
+    if (ls) ls.value = 'force';
+    applyLayout();
+  } catch(e){}
+  try {
+    network.once('stabilized', () => {
+      colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+      buildLegend(network.body.data.nodes.get());
+      setStatus('Ready');
+    });
+    network.on && network.on('stabilizationProgress', (p)=> setStatus(`Stabilizing ${p.iterations||0}/${p.total||0}`));
+    network.on && network.on('stabilizationIterationsDone', ()=> { hideLoadingBar(); setStatus('Physics running'); });
+    network.on && network.on('stabilized', ()=> { hideLoadingBar(); setStatus('Ready'); });
+    network.on("selectNode", () => {
+      const cb = document.getElementById('focusNeighbors');
+      if (cb && cb.checked) toggleFocusNeighbors(true);
+    });
+    network.on("deselectNode", () => {
+      const cb = document.getElementById('focusNeighbors');
+      if (cb && cb.checked) toggleFocusNeighbors(true);
+    });
+  } catch(e){}
+  applyLabelSize();
+  applyLabelMode();
+  const palSel = document.getElementById('paletteSelect');
+  if (palSel) palSel.value = _paletteName;
+  setStatus('Ready');
+}
+function buildLegend(nodes) {
+  const legend = document.getElementById('legend');
+  legend.innerHTML = '';
+  const isDefaultColor = (c) => {
+    if (!c) return true;
+    const lc = String(c).toLowerCase();
+    return lc === '#97c2fc' || lc === 'rgb(151,194,252)' || lc === 'rgba(151,194,252,1)';
+  };
+  const fallbackColor = (g) => {
+    const gi = Number(g);
+    const p = _paletteList();
+    return Number.isFinite(gi) ? p[gi % p.length] : p[0];
+  };
+  const buckets = {};
+  const pickGroupColor = (g) => {
+    const gKey = String(g);
+    if (window._groupColors && window._groupColors[gKey]) return window._groupColors[gKey];
+    const optsGroup = network && network.options && network.options.groups && network.options.groups[gKey];
+    const visGroup = network && network.groups && network.groups.groups && network.groups.groups[gKey];
+    const candidates = [];
+    const pushColor = (col) => { if (col) candidates.push(col); };
+    if (optsGroup && optsGroup.color) {
+      if (typeof optsGroup.color === 'string') pushColor(optsGroup.color);
+      if (optsGroup.color.background) pushColor(optsGroup.color.background);
+      if (optsGroup.color.border) pushColor(optsGroup.color.border);
+    }
+    if (visGroup && visGroup.color) {
+      if (typeof visGroup.color === 'string') pushColor(visGroup.color);
+      if (visGroup.color.background) pushColor(visGroup.color.background);
+      if (visGroup.color.border) pushColor(visGroup.color.border);
+    }
+    return candidates.length ? candidates[0] : null;
+  };
+  nodes.forEach(n => {
+    if (n.group === undefined || n.group === null) return;
+    const g = n.group;
+    if (!buckets[g]) buckets[g] = {};
+    let c = null;
+    c = pickGroupColor(g);
+    if (!c && n.color) {
+      if (typeof n.color === 'string') c = n.color;
+      if (!c && n.color.background) c = n.color.background;
+      if (!c && n.color.color) c = n.color.color;
+      if (!c && n.color.border) c = n.color.border;
+      if (!c && n.color.highlight) c = n.color.highlight;
+    }
+    if (!c) c = fallbackColor(g);
+    buckets[g][c] = (buckets[g][c] || 0) + 1;
+  });
+  const chosen = {};
+  Object.keys(buckets).forEach(g => {
+    const entries = Object.entries(buckets[g]);
+    const nonDefault = entries.filter(([c]) => !isDefaultColor(c));
+    const pick = (nonDefault.length ? nonDefault : entries).sort((a,b)=>b[1]-a[1])[0];
+    chosen[g] = pick ? pick[0] : fallbackColor(g);
+  });
+  Object.keys(chosen).sort((a,b)=>a-b).forEach(g => {
+    const sw = document.createElement('span');
+    sw.style.display = 'inline-flex';
+    sw.style.alignItems = 'center';
+    sw.style.gap = '3px';
+    sw.innerHTML = '<span style="width:10px;height:10px;display:inline-block;background:'+chosen[g]+';border:1px solid #999;"></span><span style="font-size:11px;">C'+g+'</span>';
+    legend.appendChild(sw);
+  });
+  try {
+    const chip = document.getElementById('statusChip');
+    if (chip && window.network) {
+      const nodesCount = window.network.body.data.nodes.length;
+      const edgesCount = window.network.body.data.edges.length;
+      const sel = document.getElementById('communityFilter');
+      const vals = sel ? Array.from(sel.selectedOptions || []).map(o => o.value) : [];
+      const commLabel = (!vals.length || vals.includes('__all__')) ? 'All' : vals.join(',');
+      chip.textContent = `Nodes: ${nodesCount} | Edges: ${edgesCount} | Comm: ${commLabel}`;
+    }
+  } catch(e){}
+}
+function searchNode() {
+  const q = (document.getElementById('nodeSearch').value || '').toLowerCase();
+  if (!q || !window.network) return;
+  const nodes = network.body.data.nodes.get();
+  const hit = nodes.find(n => (n.label || n.id || '').toLowerCase().includes(q));
+  if (hit) {
+    network.selectNodes([hit.id]);
+    network.focus(hit.id, {scale:1.2});
+  }
+}
+function fitView() { if (window.network) network.fit(); }
+function resetView() {
+  if (!window.network) return;
+  if (_initialPositions) {
+    Object.keys(_initialPositions).forEach(id => {
+      const p = _initialPositions[id];
+      if (p && p.x !== undefined && p.y !== undefined) network.moveNode(id, p.x, p.y);
+    });
+  }
+  if (_initialView) {
+    network.moveTo({position: _initialView.pos, scale: _initialView.scale});
+  } else {
+    network.fit();
+  }
+}
+function zoomStep(delta) {
+  if (!window.network) return;
+  const current = network.getScale();
+  const target = Math.max(0.1, current + delta);
+  network.moveTo({scale: target});
+  const zi = document.getElementById('zoomInput'); zi.value = target.toFixed(2);
+}
+function applyZoom() {
+  if (!window.network) return;
+  const zi = document.getElementById('zoomInput');
+  let target = parseFloat(zi.value);
+  if (isNaN(target) || target <= 0) target = 1.0;
+  network.moveTo({scale: target});
+}
+function downloadPNG() {
+  try {
+    const canvas = document.querySelector('canvas');
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'network.png';
+    link.click();
+  } catch(e) { console.log('png download failed', e); }
+}
+function downloadSVG() {
+  try {
+    const canvas = document.querySelector('canvas');
+    const png = canvas.toDataURL('image/png');
+    const w = canvas.width, h = canvas.height;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><image href="${png}" width="${w}" height="${h}"/></svg>`;
+    const blob = new Blob([svg], {type:'image/svg+xml'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'network.svg';
+    link.click();
+  } catch(e) { console.log('svg download failed', e); }
+}
+function downloadPDF() {
+  try {
+    const canvas = document.querySelector('canvas');
+    const png = canvas.toDataURL('image/png');
+    const w = window.open('');
+    if (w) {
+      w.document.write('<html><head><title>Network</title></head><body style="margin:0;"><img src="'+png+'" style="width:100%;"></body></html>');
+      w.document.close();
+      w.focus();
+      setTimeout(()=>{w.print();}, 500);
+    }
+  } catch(e) { console.log('pdf download failed', e); }
+}
+function handleSettings(val) {
+  if (!val) return;
+  if (val === 'saveSettingsFile') {
+    saveSettingsToFile();
+  } else if (val === 'loadSettingsFile') {
+    const sf = document.getElementById('settingsFile');
+    if (sf) sf.click();
+  } else if (val === 'exportPositions') {
+    exportPositions();
+  } else if (val === 'importPositions') {
+    const imp = document.getElementById('importFile');
+    if (imp) imp.click();
+  } else if (val === 'saveSettingsLocal') {
+    saveSettings();
+  } else if (val === 'loadSettingsLocal') {
+    loadSettings();
+  }
+  const sel = document.getElementById('settingsSelect');
+  if (sel) sel.value = '';
+}
+function toggleHelp(show) {
+  const el = document.getElementById('helpOverlay');
+  if (!el) return;
+  el.style.display = show ? 'block' : 'none';
+}
+function downloadJSON(data, filename) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+function _collectSettings() {
+  return {
+    palette: (document.getElementById('paletteSelect')||{}).value || 'default',
+    layout: (document.getElementById('layoutSelect')||{}).value || 'force',
+    theme: (document.getElementById('themeToggle')||{}).value || 'light',
+    labelSize: (document.getElementById('labelSize')||{}).value || '16',
+    labelMode: (document.getElementById('labelMode')||{}).value || 'all',
+    labelTopN: (document.getElementById('labelTopN')||{}).value || '50',
+    edgeThresh: (document.getElementById('edgeThresh')||{}).value || '1',
+    highContrast: !!(document.getElementById('highContrast')||{}).checked,
+    colorblindAid: !!(document.getElementById('colorblindAid')||{}).checked,
+    showLabels: !!(document.getElementById('toggleLabels')||{}).checked,
+    focusNeighbors: !!(document.getElementById('focusNeighbors')||{}).checked,
+  };
+}
+function _applySettingsObject(s) {
+  const setVal = (id, val) => { const el=document.getElementById(id); if (el && val!==undefined) el.value = val; };
+  const setChk = (id, val) => { const el=document.getElementById(id); if (el && val!==undefined) el.checked = !!val; };
+  setVal('paletteSelect', s.palette);
+  setVal('layoutSelect', s.layout);
+  setVal('themeToggle', s.theme);
+  setVal('labelSize', s.labelSize);
+  setVal('labelMode', s.labelMode);
+  setVal('labelTopN', s.labelTopN);
+  setVal('edgeThresh', s.edgeThresh);
+  setChk('highContrast', s.highContrast);
+  setChk('colorblindAid', s.colorblindAid);
+  setChk('toggleLabels', s.showLabels);
+  setChk('focusNeighbors', false);
+  applyPaletteSelect();
+  applyLayout();
+  applyLabelSize();
+  applyLabelMode();
+  applyEdgeThreshold();
+  toggleTheme();
+  if (s.showLabels !== undefined) toggleLabels();
+  if (s.highContrast !== undefined) toggleHighContrast();
+  if (s.colorblindAid !== undefined) toggleColorblindAid();
+}
+function saveSettingsToFile() {
+  const settings = _collectSettings();
+  downloadJSON(settings, 'network_ui_settings.json');
+  setStatus('Settings saved (file)');
+}
+function importSettingsFile(evt) {
+  const file = evt.target.files && evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result || "{}");
+      _applySettingsObject(data);
+      setStatus('Settings loaded (file)');
+    } catch(err) { setStatus('Load failed'); }
+  };
+  reader.readAsText(file);
+}
+function saveSettings() {
+  if (!window.localStorage) { setStatus('No localStorage'); return; }
+  try {
+    const settings = _collectSettings();
+    localStorage.setItem('pyvis_ui_settings', JSON.stringify(settings));
+    setStatus('Settings saved');
+  } catch(e){ setStatus('Save failed'); console.log('saveSettings failed', e); }
+}
+function loadSettings() {
+  if (!window.localStorage) { setStatus('No localStorage'); return; }
+  try {
+    const raw = localStorage.getItem('pyvis_ui_settings');
+    if (!raw) { setStatus('No saved settings'); return; }
+    const s = JSON.parse(raw);
+    _applySettingsObject(s);
+    setStatus('Settings loaded');
+  } catch(e){ setStatus('Load failed'); console.log('loadSettings failed', e); }
+}
+function importPositionsFile(evt) {
+  const file = evt.target.files && evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result || "{}");
+      const posMap = data.positions ? data.positions : data;
+      Object.keys(posMap || {}).forEach(id => {
+        const p = posMap[id];
+        if (p && p.x !== undefined && p.y !== undefined) {
+          network.moveNode(id, p.x, p.y);
+        }
+      });
+      if (data.view && data.view.pos && data.view.scale) {
+        try { network.moveTo({position: data.view.pos, scale: data.view.scale}); } catch(err){}
+      }
+    } catch(err){}
+  };
+  reader.readAsText(file);
+}
+function togglePhysics() {
+  _physicsOn = !_physicsOn;
+  try {
+    network.setOptions({physics:{enabled:_physicsOn}});
+  } catch(e){}
+}
+function applyLabelSize() {
+  const inp = document.getElementById('labelSize');
+  const sz = parseInt(inp.value, 10);
+  if (isNaN(sz) || sz <= 0) return;
+  _nodeSize = sz;
+  try {
+    network.setOptions({nodes:{font:{size:_nodeSize}}});
+    const nodes = network.body.data.nodes.get();
+    const upd = nodes.map(n => ({...n, font:{...(n.font||{}), size:_nodeSize}}));
+    network.body.data.nodes.update(upd);
+  } catch(e){}
+}
+function applyNodeSize() {
+  const inp = document.getElementById('nodeSizeFactor');
+  const factor = parseFloat(inp.value);
+  if (!window.network || !isFinite(factor)) return;
+  const nodes = network.body.data.nodes.get();
+  const upd = nodes.map(n => {
+    const base = n._origSize || n.size || n.value || 10;
+    const _orig = n._origSize || base;
+    const newSize = _orig * factor;
+    return {...n, _origSize: _orig, size: newSize, value: newSize};
+  });
+  network.body.data.nodes.update(upd);
+  try { network.redraw(); } catch(e){}
+}
+function applyEdgeThreshold() {
+  const inp = document.getElementById('edgeThresh');
+  const thr = parseInt(inp.value, 10);
+  if (isNaN(thr) || thr < 1) return;
+  _edgeThreshold = thr;
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  const eVis = edges.map(e => {
+    const show = (e.value || e.weight || 1) >= _edgeThreshold;
+    return {...e, hidden: !show};
+  });
+  network.body.data.edges.update(eVis);
+}
+function applyNodeTopN() {
+  if (!window.network) return;
+  const inp = document.getElementById('nodeTopN');
+  const top = parseInt(inp.value, 10);
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  if (isNaN(top) || top <= 0) {
+    const nAll = nodes.map(n => ({...n, hidden:false}));
+    const eAll = edges.map(e => ({...e, hidden:false}));
+    network.body.data.nodes.update(nAll);
+    network.body.data.edges.update(eAll);
+    return;
+  }
+  const scored = nodes.map(n => ({id:n.id, score: Number(n.value || 0) || 0}));
+  scored.sort((a,b)=>b.score - a.score);
+  const keep = new Set(scored.slice(0, top).map(s => s.id));
+  const nUpd = nodes.map(n => ({...n, hidden: !keep.has(n.id)}));
+  const eUpd = edges.map(e => ({...e, hidden: !(keep.has(e.from) && keep.has(e.to))}));
+  network.body.data.nodes.update(nUpd);
+  network.body.data.edges.update(eUpd);
+}
+function exportPositions() {
+  try {
+    const data = {
+      positions: network.getPositions(),
+      view: {pos: network.getViewPosition(), scale: network.getScale()}
+    };
+    downloadJSON(data, 'network_positions.json');
+  } catch(e){ console.log('export failed', e); }
+}
+function selectNode() {
+  const val = document.getElementById('nodeSelect').value;
+  if (!val || !window.network) return;
+  network.selectNodes([val]);
+  network.focus(val, {scale:1.2});
+}
+function populateNodeSelect(list) {
+  const nodeSel = document.getElementById('nodeSelect');
+  nodeSel.innerHTML = '<option value=\"\">Jump to node…</option>';
+  list.forEach(n => {
+    const opt = document.createElement('option');
+    opt.value = n.id;
+    opt.text = n.label || n.id;
+    nodeSel.appendChild(opt);
+  });
+}
+function filterNodeList() {
+  const q = (document.getElementById('nodeSearch').value || '').toLowerCase();
+  if (!_allNodesForSelect) return;
+  const cf = document.getElementById('communityFilter');
+  const commVals = cf ? Array.from(cf.selectedOptions || []).map(o => o.value) : [];
+  const showAll = (!commVals.length || commVals.includes('__all__'));
+  let base = _allNodesForSelect;
+  if (!showAll) {
+    const set = new Set(commVals);
+    base = base.filter(n => set.has(String(n.group)));
+  }
+  const filtered = base.filter(n => (n.label || n.id || '').toLowerCase().includes(q));
+  populateNodeSelect(filtered);
+}
+function filterCommunity() {
+  if (!window.network) return;
+  const sel = document.getElementById('communityFilter');
+  const vals = sel ? Array.from(sel.selectedOptions || []).map(o => o.value) : [];
+  const showAll = (!vals.length || vals.includes('__all__'));
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  const selectedSet = new Set(vals);
+  const nVis = nodes.map(n => {
+    const gval = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+    const show = showAll || selectedSet.has(gval);
+    return {...n, hidden: !show};
+  });
+  const keepIds = new Set(nVis.filter(n => !n.hidden).map(n => n.id));
+  const eVis = edges.map(e => {
+    const show = keepIds.has(e.from) && keepIds.has(e.to);
+    return {...e, hidden: !show};
+  });
+  network.body.data.nodes.update(nVis);
+  network.body.data.edges.update(eVis);
+  let list = [];
+  if (_commNodesMap) {
+    if (showAll || selectedSet.has('__none__')) {
+      Object.keys(_commNodesMap).forEach(k => { list = list.concat(_commNodesMap[k]); });
+    } else {
+      Object.keys(_commNodesMap).forEach(k => {
+        if (selectedSet.has(String(k))) list = list.concat(_commNodesMap[k]);
+      });
+    }
+  }
+  list = list.slice().sort((a,b)=> (''+a.label).localeCompare(''+b.label));
+  populateNodeSelect(list);
+  filterNodeList();
+  colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  buildLegend(network.body.data.nodes.get());
+}
+function applyTheme(mode, doRecolor=true) {
+  _theme = mode;
+  const colors = _colors[mode] || _colors.light;
+  try {
+    updateNodeFonts(colors.font);
+    network.setOptions({
+      nodes:{font:{color:colors.font, background: 'rgba(0,0,0,0)'}},
+      edges:{color:{inherit:'from', opacity:0.6}}
+    });
+  } catch(e){}
+  try {
+    const canvas = document.querySelector('canvas');
+    if (canvas && canvas.parentElement) canvas.parentElement.style.background = colors.bg;
+    document.body && (document.body.style.background = colors.bg);
+    const legend = document.getElementById('legend');
+    if (legend) legend.style.color = colors.font;
+  } catch(e){}
+  if (doRecolor && window.network) {
+    colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  }
+}
+function toggleTheme() {
+  const sel = document.getElementById('themeToggle');
+  const mode = sel.value || 'light';
+  applyTheme(mode);
+}
+function applyLayout() {
+  if (!window.network) return;
+  const sel = document.getElementById('layoutSelect');
+  const mode = sel ? sel.value : 'force';
+  try {
+    const cb = document.getElementById('focusNeighbors');
+    if (cb) cb.checked = false;
+    toggleFocusNeighbors(false);
+  } catch(e){}
+  const nodes = network.body.data.nodes.get();
+  const idToNode = {};
+  nodes.forEach(n => { idToNode[n.id] = n; });
+  if (mode === 'circular') {
+    const n = Math.max(1, nodes.length);
+    const radius = 300 + Math.min(400, n * 1.5);
+    const updates = nodes.map((node, idx) => {
+      const angle = (2 * Math.PI * idx) / n;
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+      return {...node, x, y, fixed: {x: true, y: true}};
+    });
+    try { network.body.data.nodes.update(updates); } catch(e){}
+    try { network.setOptions({physics:{enabled:false}, layout:{hierarchical:false}}); } catch(e){}
+  } else if (mode === 'grid') {
+    const n = Math.max(1, nodes.length);
+    const cols = Math.ceil(Math.sqrt(n));
+    const spacing = 120;
+    const updates = nodes.map((node, idx) => {
+      const row = Math.floor(idx / cols);
+      const col = idx % cols;
+      const x = col * spacing;
+      const y = row * spacing;
+      return {...node, x, y, fixed: {x: true, y: true}};
+    });
+    try { network.body.data.nodes.update(updates); } catch(e){}
+    try { network.setOptions({physics:{enabled:false}, layout:{hierarchical:false}}); } catch(e){}
+  } else {
+    const updates = nodes.map(node => ({...node, fixed: {x:false, y:false}}));
+    try { network.body.data.nodes.update(updates); } catch(e){}
+    try {
+      if (_initialPositions) {
+        const reset = Object.keys(_initialPositions).map(id => {
+          const pos = _initialPositions[id];
+          const base = idToNode[id] || {id};
+          return {...base, x: pos.x, y: pos.y, fixed: {x:false, y:false}};
+        });
+        network.body.data.nodes.update(reset);
+      }
+      network.setOptions({physics:{enabled:true}, layout:{hierarchical:false}});
+      network.stabilize();
+    } catch(e){}
+  }
+  try { applyPaletteSelect(); } catch(e){}
+  try { applyLabelMode(); } catch(e){}
+  colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  buildLegend(network.body.data.nodes.get());
+}
+function applyPaletteSelect() {
+  const sel = document.getElementById('paletteSelect');
+  const name = sel ? sel.value : 'default';
+  _paletteName = name;
+  let palette = _paletteList();
+  const useInitialMap = (name === 'default') && _initialColorMap && Object.keys(_initialColorMap).length;
+  if (name === 'default' && !useInitialMap) {
+    palette = _visDefaultColors.slice();
+  }
+  const fallbackColor = '#6699cc';
+  if (!window.network) return;
+  const nodes = network.body.data.nodes.get();
+  const borderCol = '#333333';
+  let groupMap = {};
+  if (useInitialMap && name === 'default') {
+    const nodesUpd = nodes.map(n => {
+      const gKey = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+      const col = _initialColorMap[gKey] || fallbackColor;
+      const c = {background: col, border: borderCol, highlight: {background: col, border: borderCol}};
+      return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+    });
+    network.body.data.nodes.update(nodesUpd);
+    Object.keys(_commNodesMap || {}).forEach(g => {
+      const gKey = String(g);
+      const col = _initialColorMap[gKey] || fallbackColor;
+      groupMap[g] = {color: {background: col, border: borderCol, highlight: {background: col, border: borderCol}}, borderWidth: 2, borderWidthSelected: 3};
+    });
+    try { network.setOptions({groups: groupMap}); } catch(e){}
+    window._groupColors = {};
+    Object.keys(groupMap).forEach(g => { window._groupColors[g] = groupMap[g].color.background; });
+    colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+    buildLegend(network.body.data.nodes.get());
+    return;
+  } else {
+    const nodeUpdates = nodes.map(n => {
+      const graw = n.group;
+      if (graw === undefined || graw === null || graw === "__none__") {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+      }
+      const gi = Number(graw);
+      if (!Number.isFinite(gi) || gi < 0) {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+      }
+      const gKey = String(graw);
+      const baseCol = palette[gi % palette.length];
+      const col = useInitialMap ? (_initialColorMap[gKey] || baseCol) : baseCol;
+      const c = {background: col, border: borderCol, highlight: {background: col, border: borderCol}};
+      return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+    });
+    network.body.data.nodes.update(nodeUpdates);
+    Object.keys(_commNodesMap || {}).forEach(g => {
+      if (g === "__none__") {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        groupMap[g] = {color: c, borderWidth: 2, borderWidthSelected: 3};
+        return;
+      }
+      const gi = Number(g);
+      if (!Number.isFinite(gi) || gi < 0) {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        groupMap[g] = {color: c, borderWidth: 2, borderWidthSelected: 3};
+        return;
+      }
+      const col = palette[gi % palette.length];
+      const c = {background: col, border: borderCol, highlight: {background: col, border: borderCol}};
+      groupMap[g] = {color: c, borderWidth: 2, borderWidthSelected: 3};
+    });
+    try { network.setOptions({groups: groupMap}); } catch(e){}
+  }
+  window._groupColors = {};
+  Object.keys(groupMap).forEach(g => { window._groupColors[g] = groupMap[g].color.background; });
+  colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  buildLegend(network.body.data.nodes.get());
+  return;
+}
+function updateNodeFonts(color) {
+  try {
+    const nodes = network.body.data.nodes.get();
+    const upd = nodes.map(n => ({
+      ...n,
+      font: {...(n.font || {}), color: color, background: 'rgba(0,0,0,0)'}
+    }));
+    network.body.data.nodes.update(upd);
+  } catch(e){}
+}
+function colorEdgesBySource(nodes, edges) {
+  const colMap = {};
+  nodes.forEach(n => {
+    let c = null;
+    if (n.color) {
+      if (typeof n.color === 'string') c = n.color;
+      if (!c && n.color.background) c = n.color.background;
+      if (!c && n.color.color) c = n.color.color;
+    }
+    if (!c) c = '#97c2fc';
+    colMap[n.id] = c;
+  });
+  const eVis = edges.map(e => {
+    const wRaw = Number(e.value || e.weight || 1);
+    const w = Math.max(1.2, 1.4 * Math.sqrt(isFinite(wRaw) ? wRaw : 1));
+    const col = colMap[e.from] || colMap[e.to] || '#97c2fc';
+    return {...e, width: w, color: {color: col, highlight: col, hover: col}};
+  });
+  try { network.body.data.edges.update(eVis); } catch(e){}
+}
+function handleDownload(kind) {
+  if (!kind) return;
+  if (kind === 'png') downloadPNG();
+  else if (kind === 'svg') downloadSVG();
+  else if (kind === 'pdf') downloadPDF();
+  else if (kind === 'export') exportPositions();
+  else if (kind === 'import') {
+    const inp = document.getElementById('importFile');
+    if (inp) inp.click();
+  }
+  const sel = document.getElementById('downloadSelect');
+  if (sel) sel.value = '';
+}
+function stabilizeFreeze() {
+  if (!window.network) return;
+  try {
+    network.setOptions({physics:{enabled:true, stabilization:{enabled:true, iterations:300}}});
+    if (network.stabilize) network.stabilize();
+    network.once && network.once('stabilizationIterationsDone', () => hideLoadingBar());
+    network.once && network.once('stabilized', () => { hideLoadingBar(); network.setOptions({physics:{enabled:false}}); });
+    setTimeout(hideLoadingBar, 4000);
+  } catch(e){}
+}
+function toggleFocusNeighbors(skipToggle) {
+  const cb = document.getElementById('focusNeighbors');
+  if (!cb || !window.network) return;
+  if (!cb.checked && !skipToggle) {
+    const nodes = network.body.data.nodes.get().map(n => ({...n, hidden:false}));
+    const edges = network.body.data.edges.get().map(e => ({...e, hidden:false}));
+    network.body.data.nodes.update(nodes);
+    network.body.data.edges.update(edges);
+    return;
+  }
+  const sel = network.getSelectedNodes();
+  if (!sel || !sel.length) return;
+  const keep = new Set(sel);
+  const edges = network.body.data.edges.get();
+  edges.forEach(e => {
+    if (keep.has(e.from) || keep.has(e.to)) {
+      keep.add(e.from); keep.add(e.to);
+    }
+  });
+  const nUpd = network.body.data.nodes.get().map(n => ({...n, hidden: !keep.has(n.id)}));
+  const eUpd = edges.map(e => ({...e, hidden: !(keep.has(e.from) && keep.has(e.to))}));
+  network.body.data.nodes.update(nUpd);
+  network.body.data.edges.update(eUpd);
+}
+function toggleLabels() {
+  const cb = document.getElementById('toggleLabels');
+  if (!window.network) return;
+  const show = cb && cb.checked;
+  try {
+    const nodes = network.body.data.nodes.get().map(n => ({...n, label: show ? (n.label || n.id) : ''}));
+    network.body.data.nodes.update(nodes);
+  } catch(e){}
+}
+function applyLabelMode() {
+  if (!window.network) return;
+  const modeSel = document.getElementById('labelMode');
+  const topInp = document.getElementById('labelTopN');
+  const sizeInp = document.getElementById('labelSize');
+  const mode = modeSel ? modeSel.value : 'all';
+  const baseSize = parseInt(sizeInp ? sizeInp.value : '16', 10) || 16;
+  let keep = new Set();
+  if (mode === 'top') {
+    const topN = parseInt(topInp ? topInp.value : '50', 10) || 50;
+    const nodes = network.body.data.nodes.get();
+    const ranked = nodes.map(n => ({id:n.id, score: Number(n.value || 0) || 0}))
+                        .sort((a,b)=>b.score - a.score)
+                        .slice(0, topN);
+    keep = new Set(ranked.map(r => r.id));
+  }
+  try {
+    const nodes = network.body.data.nodes.get().map(n => {
+      const font = {...(n.font || {})};
+      if (mode === 'none') {
+        font.size = 0;
+      } else if (mode === 'top') {
+        font.size = keep.has(n.id) ? baseSize : 0;
+      } else {
+        font.size = baseSize;
+      }
+      return {...n, font};
+    });
+    network.body.data.nodes.update(nodes);
+  } catch(e){}
+}
+
+function toggleHighContrast() {
+  const cb = document.getElementById('highContrast');
+  if (!window.network) return;
+  if (cb && cb.checked) {
+    try {
+      network.setOptions({edges:{color:{color:'#000000'}}, nodes:{font:{color:'#000000'}}});
+      const nodes = network.body.data.nodes.get().map(n => ({...n, font:{...(n.font||{}), color:'#000000'}}));
+      network.body.data.nodes.update(nodes);
+    } catch(e){}
+  } else {
+    applyTheme(_theme, true);
+  }
+}
+function toggleColorblindAid() {
+  const cb = document.getElementById('colorblindAid');
+  const ps = document.getElementById('paletteSelect');
+  const hc = document.getElementById('highContrast');
+  if (!ps) return;
+  if (cb && cb.checked) {
+    _lastPalette = ps.value || 'default';
+    ps.value = 'colorblind';
+    applyPaletteSelect();
+    if (hc) { hc.checked = true; toggleHighContrast(); }
+  } else {
+    if (_lastPalette) ps.value = _lastPalette;
+    applyPaletteSelect();
+    if (hc) { hc.checked = false; toggleHighContrast(); }
+  }
+}
+window.addEventListener('load', initControls);
+</script>
+<!-- End SciNetX enhanced controls -->
+</body>
+</html>

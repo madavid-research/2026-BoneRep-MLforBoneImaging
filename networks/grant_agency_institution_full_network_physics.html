@@ -1,0 +1,1289 @@
+<html>
+    <head>
+    <link rel="stylesheet" href="lib/vis-9.1.2/vis-network.css">
+    <link rel="stylesheet" href="lib/tom-select/tom-select.css">
+    <script src="lib/vis-9.1.2/vis-network.min.js"></script>
+    <script src="lib/tom-select/tom-select.complete.min.js"></script>
+    <script src="lib/bindings/utils.js"></script>
+
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 900px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "degree": 17, "font": {"color": "#111111"}, "group": 2, "id": "Medical Research Council", "label": "Medical Research Council", "originalLabel": "Medical Research Council", "shape": "dot", "size": 27, "title": "Medical Research Council \u2014 Community: 2", "value": 16.246211251235323}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 2, "id": "University of Southampton", "label": "University of Southampton", "originalLabel": "University of Southampton", "shape": "dot", "size": 16, "title": "University of Southampton \u2014 Community: 2", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 2, "id": "MRC Lifecourse Epidemiology Unit", "label": "MRC Lifecourse Epidemiology Unit", "originalLabel": "MRC Lifecourse Epidemiology Unit", "shape": "dot", "size": 16, "title": "MRC Lifecourse Epidemiology Unit \u2014 Community: 2", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 2, "id": "MRC Human Nutrition Research", "label": "MRC Human Nutrition Research", "originalLabel": "MRC Human Nutrition Research", "shape": "dot", "size": 16, "title": "MRC Human Nutrition Research \u2014 Community: 2", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 2, "id": "University of Oxford", "label": "University of Oxford", "originalLabel": "University of Oxford", "shape": "dot", "size": 16, "title": "University of Oxford \u2014 Community: 2", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "Victoria University of Wellington", "label": "Victoria University of Wellington", "originalLabel": "Victoria University of Wellington", "shape": "dot", "size": 16, "title": "Victoria University of Wellington \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 2, "id": "University Hospital Southampton NHS Foundation Trust", "label": "University Hospital Southampton NHS Foundation Trust", "originalLabel": "University Hospital Southampton NHS Foundation Trust", "shape": "dot", "size": 16, "title": "University Hospital Southampton NHS Foundation Trust \u2014 Community: 2", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 2, "id": "NIHR Southampton Biomedical Research Centre", "label": "NIHR Southampton Biomedical Research Centre", "originalLabel": "NIHR Southampton Biomedical Research Centre", "shape": "dot", "size": 16, "title": "NIHR Southampton Biomedical Research Centre \u2014 Community: 2", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 2, "id": "Oxford BioMedica (United Kingdom)", "label": "Oxford BioMedica (United Kingdom)", "originalLabel": "Oxford BioMedica (United Kingdom)", "shape": "dot", "size": 16, "title": "Oxford BioMedica (United Kingdom) \u2014 Community: 2", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 2, "id": "Southampton General Hospital", "label": "Southampton General Hospital", "originalLabel": "Southampton General Hospital", "shape": "dot", "size": 16, "title": "Southampton General Hospital \u2014 Community: 2", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "NIHR Oxford Musculoskeletal Biomedical Research Centre", "label": "NIHR Oxford Musculoskeletal Biomedical Research Centre", "originalLabel": "NIHR Oxford Musculoskeletal Biomedical Research Centre", "shape": "dot", "size": 16, "title": "NIHR Oxford Musculoskeletal Biomedical Research Centre \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "Gda\u0144sk Medical University", "label": "Gda\u0144sk Medical University", "originalLabel": "Gda\u0144sk Medical University", "shape": "dot", "size": 16, "title": "Gda\u0144sk Medical University \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "Manchester Academic Health Science Centre", "label": "Manchester Academic Health Science Centre", "originalLabel": "Manchester Academic Health Science Centre", "shape": "dot", "size": 16, "title": "Manchester Academic Health Science Centre \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "University of Manchester", "label": "University of Manchester", "originalLabel": "University of Manchester", "shape": "dot", "size": 16, "title": "University of Manchester \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "University of Bristol", "label": "University of Bristol", "originalLabel": "University of Bristol", "shape": "dot", "size": 16, "title": "University of Bristol \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "The Alan Turing Institute", "label": "The Alan Turing Institute", "originalLabel": "The Alan Turing Institute", "shape": "dot", "size": 16, "title": "The Alan Turing Institute \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 2, "id": "Queen Alexandra Hospital", "label": "Queen Alexandra Hospital", "originalLabel": "Queen Alexandra Hospital", "shape": "dot", "size": 16, "title": "Queen Alexandra Hospital \u2014 Community: 2", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 2, "id": "Portsmouth Hospitals NHS Trust", "label": "Portsmouth Hospitals NHS Trust", "originalLabel": "Portsmouth Hospitals NHS Trust", "shape": "dot", "size": 16, "title": "Portsmouth Hospitals NHS Trust \u2014 Community: 2", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 18, "font": {"color": "#111111"}, "group": 2, "id": "Versus Arthritis", "label": "Versus Arthritis", "originalLabel": "Versus Arthritis", "shape": "dot", "size": 28, "title": "Versus Arthritis \u2014 Community: 2", "value": 16.485281374238568}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 13, "font": {"color": "#111111"}, "group": 2, "id": "Arthritis Research UK", "label": "Arthritis Research UK", "originalLabel": "Arthritis Research UK", "shape": "dot", "size": 20, "title": "Arthritis Research UK \u2014 Community: 2", "value": 15.21110255092798}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 9, "font": {"color": "#111111"}, "group": 2, "id": "British Heart Foundation", "label": "British Heart Foundation", "originalLabel": "British Heart Foundation", "shape": "dot", "size": 16, "title": "British Heart Foundation \u2014 Community: 2", "value": 14.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 6, "font": {"color": "#111111"}, "group": 2, "id": "Department of Health", "label": "Department of Health", "originalLabel": "Department of Health", "shape": "dot", "size": 16, "title": "Department of Health \u2014 Community: 2", "value": 12.898979485566356}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 2, "id": "Royal Veterinary College", "label": "Royal Veterinary College", "originalLabel": "Royal Veterinary College", "shape": "dot", "size": 16, "title": "Royal Veterinary College \u2014 Community: 2", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 2, "id": "Merck (Germany)", "label": "Merck (Germany)", "originalLabel": "Merck (Germany)", "shape": "dot", "size": 16, "title": "Merck (Germany) \u2014 Community: 2", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 34, "font": {"color": "#111111"}, "group": 1, "id": "NIAMS NIH HHS", "label": "NIAMS NIH HHS", "originalLabel": "NIAMS NIH HHS", "shape": "dot", "size": 48, "title": "NIAMS NIH HHS \u2014 Community: 1", "value": 19.6619037896906}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 1, "id": "Mayo Clinic", "label": "Mayo Clinic", "originalLabel": "Mayo Clinic", "shape": "dot", "size": 16, "title": "Mayo Clinic \u2014 Community: 1", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Universit\u00e9 d\u0027Orl\u00e9ans", "label": "Universit\u00e9 d\u0027Orl\u00e9ans", "originalLabel": "Universit\u00e9 d\u0027Orl\u00e9ans", "shape": "dot", "size": 16, "title": "Universit\u00e9 d\u0027Orl\u00e9ans \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Harvard University", "label": "Harvard University", "originalLabel": "Harvard University", "shape": "dot", "size": 16, "title": "Harvard University \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 1, "id": "Universit\u00e9 Claude Bernard Lyon 1", "label": "Universit\u00e9 Claude Bernard Lyon 1", "originalLabel": "Universit\u00e9 Claude Bernard Lyon 1", "shape": "dot", "size": 16, "title": "Universit\u00e9 Claude Bernard Lyon 1 \u2014 Community: 1", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 1, "id": "University of California, San Francisco", "label": "University of California, San Francisco", "originalLabel": "University of California, San Francisco", "shape": "dot", "size": 16, "title": "University of California, San Francisco \u2014 Community: 1", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "University of Geneva", "label": "University of Geneva", "originalLabel": "University of Geneva", "shape": "dot", "size": 16, "title": "University of Geneva \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 1, "id": "Boston University", "label": "Boston University", "originalLabel": "Boston University", "shape": "dot", "size": 16, "title": "Boston University \u2014 Community: 1", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Beth Israel Deaconess Medical Center", "label": "Beth Israel Deaconess Medical Center", "originalLabel": "Beth Israel Deaconess Medical Center", "shape": "dot", "size": 16, "title": "Beth Israel Deaconess Medical Center \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Beth Israel Deaconess Hospital", "label": "Beth Israel Deaconess Hospital", "originalLabel": "Beth Israel Deaconess Hospital", "shape": "dot", "size": 16, "title": "Beth Israel Deaconess Hospital \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 1, "id": "Alberta Bone and Joint Health Institute", "label": "Alberta Bone and Joint Health Institute", "originalLabel": "Alberta Bone and Joint Health Institute", "shape": "dot", "size": 16, "title": "Alberta Bone and Joint Health Institute \u2014 Community: 1", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Hebrew SeniorLife", "label": "Hebrew SeniorLife", "originalLabel": "Hebrew SeniorLife", "shape": "dot", "size": 16, "title": "Hebrew SeniorLife \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "H\u00f4pital Edouard Herriot", "label": "H\u00f4pital Edouard Herriot", "originalLabel": "H\u00f4pital Edouard Herriot", "shape": "dot", "size": 16, "title": "H\u00f4pital Edouard Herriot \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Massachusetts General Hospital", "label": "Massachusetts General Hospital", "originalLabel": "Massachusetts General Hospital", "shape": "dot", "size": 16, "title": "Massachusetts General Hospital \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "McGill University Health Centre", "label": "McGill University Health Centre", "originalLabel": "McGill University Health Centre", "shape": "dot", "size": 16, "title": "McGill University Health Centre \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Public Health Ontario", "label": "Public Health Ontario", "originalLabel": "Public Health Ontario", "shape": "dot", "size": 16, "title": "Public Health Ontario \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "University Health Network", "label": "University Health Network", "originalLabel": "University Health Network", "shape": "dot", "size": 16, "title": "University Health Network \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 1, "id": "University of Calgary", "label": "University of Calgary", "originalLabel": "University of Calgary", "shape": "dot", "size": 16, "title": "University of Calgary \u2014 Community: 1", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "Centre hospitalier r\u00e9gional d\u0027Orl\u00e9ans", "label": "Centre hospitalier r\u00e9gional d\u0027Orl\u00e9ans", "originalLabel": "Centre hospitalier r\u00e9gional d\u0027Orl\u00e9ans", "shape": "dot", "size": 16, "title": "Centre hospitalier r\u00e9gional d\u0027Orl\u00e9ans \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Washington University in St. Louis", "label": "Washington University in St. Louis", "originalLabel": "Washington University in St. Louis", "shape": "dot", "size": 16, "title": "Washington University in St. Louis \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 1, "id": "University of Toronto", "label": "University of Toronto", "originalLabel": "University of Toronto", "shape": "dot", "size": 16, "title": "University of Toronto \u2014 Community: 1", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Nagasaki University", "label": "Nagasaki University", "originalLabel": "Nagasaki University", "shape": "dot", "size": 16, "title": "Nagasaki University \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 1, "id": "Health Net", "label": "Health Net", "originalLabel": "Health Net", "shape": "dot", "size": 16, "title": "Health Net \u2014 Community: 1", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Indiana University Indianapolis", "label": "Indiana University Indianapolis", "originalLabel": "Indiana University Indianapolis", "shape": "dot", "size": 16, "title": "Indiana University Indianapolis \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Indiana University \u2013 Purdue University Indianapolis", "label": "Indiana University \u2013 Purdue University Indianapolis", "originalLabel": "Indiana University \u2013 Purdue University Indianapolis", "shape": "dot", "size": 16, "title": "Indiana University \u2013 Purdue University Indianapolis \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 1, "id": "Laboratoire d\u2019Imagerie Biom\u00e9dicale", "label": "Laboratoire d\u2019Imagerie Biom\u00e9dicale", "originalLabel": "Laboratoire d\u2019Imagerie Biom\u00e9dicale", "shape": "dot", "size": 16, "title": "Laboratoire d\u2019Imagerie Biom\u00e9dicale \u2014 Community: 1", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 0, "id": "Loyola University Chicago", "label": "Loyola University Chicago", "originalLabel": "Loyola University Chicago", "shape": "dot", "size": 16, "title": "Loyola University Chicago \u2014 Community: 0", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 1, "id": "Mayo Clinic in Arizona", "label": "Mayo Clinic in Arizona", "originalLabel": "Mayo Clinic in Arizona", "shape": "dot", "size": 16, "title": "Mayo Clinic in Arizona \u2014 Community: 1", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 3, "id": "Medical University of Vienna", "label": "Medical University of Vienna", "originalLabel": "Medical University of Vienna", "shape": "dot", "size": 16, "title": "Medical University of Vienna \u2014 Community: 3", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 0, "id": "University of Pennsylvania", "label": "University of Pennsylvania", "originalLabel": "University of Pennsylvania", "shape": "dot", "size": 16, "title": "University of Pennsylvania \u2014 Community: 0", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Purdue University West Lafayette", "label": "Purdue University West Lafayette", "originalLabel": "Purdue University West Lafayette", "shape": "dot", "size": 16, "title": "Purdue University West Lafayette \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "The University of Texas at Tyler", "label": "The University of Texas at Tyler", "originalLabel": "The University of Texas at Tyler", "shape": "dot", "size": 16, "title": "The University of Texas at Tyler \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 0, "id": "University of Colorado Anschutz Medical Campus", "label": "University of Colorado Anschutz Medical Campus", "originalLabel": "University of Colorado Anschutz Medical Campus", "shape": "dot", "size": 16, "title": "University of Colorado Anschutz Medical Campus \u2014 Community: 0", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 1, "id": "Boston Medical Center", "label": "Boston Medical Center", "originalLabel": "Boston Medical Center", "shape": "dot", "size": 16, "title": "Boston Medical Center \u2014 Community: 1", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 1, "id": "3M (United States)", "label": "3M (United States)", "originalLabel": "3M (United States)", "shape": "dot", "size": 16, "title": "3M (United States) \u2014 Community: 1", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 40, "font": {"color": "#111111"}, "group": 1, "id": "NHLBI NIH HHS", "label": "NHLBI NIH HHS", "originalLabel": "NHLBI NIH HHS", "shape": "dot", "size": 48, "title": "NHLBI NIH HHS \u2014 Community: 1", "value": 20.64911064067352}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 28, "font": {"color": "#111111"}, "group": 1, "id": "CIHR", "label": "CIHR", "originalLabel": "CIHR", "shape": "dot", "size": 44, "title": "CIHR \u2014 Community: 1", "value": 18.583005244258363}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 1, "id": "NCRR NIH HHS", "label": "NCRR NIH HHS", "originalLabel": "NCRR NIH HHS", "shape": "dot", "size": 16, "title": "NCRR NIH HHS \u2014 Community: 1", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Raytheon Technologies (Finland)", "label": "Raytheon Technologies (Finland)", "originalLabel": "Raytheon Technologies (Finland)", "shape": "dot", "size": 16, "title": "Raytheon Technologies (Finland) \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Oulu University Hospital", "label": "Oulu University Hospital", "originalLabel": "Oulu University Hospital", "shape": "dot", "size": 16, "title": "Oulu University Hospital \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "McGill University", "label": "McGill University", "originalLabel": "McGill University", "shape": "dot", "size": 16, "title": "McGill University \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 0, "id": "Alberta Children\u0027s Hospital", "label": "Alberta Children\u0027s Hospital", "originalLabel": "Alberta Children\u0027s Hospital", "shape": "dot", "size": 16, "title": "Alberta Children\u0027s Hospital \u2014 Community: 0", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "UNC Lineberger Comprehensive Cancer Center", "label": "UNC Lineberger Comprehensive Cancer Center", "originalLabel": "UNC Lineberger Comprehensive Cancer Center", "shape": "dot", "size": 16, "title": "UNC Lineberger Comprehensive Cancer Center \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Weizmann Institute of Science", "label": "Weizmann Institute of Science", "originalLabel": "Weizmann Institute of Science", "shape": "dot", "size": 16, "title": "Weizmann Institute of Science \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "University of Oulu", "label": "University of Oulu", "originalLabel": "University of Oulu", "shape": "dot", "size": 16, "title": "University of Oulu \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "University of North Carolina at Chapel Hill", "label": "University of North Carolina at Chapel Hill", "originalLabel": "University of North Carolina at Chapel Hill", "shape": "dot", "size": 16, "title": "University of North Carolina at Chapel Hill \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "University of Eastern Finland", "label": "University of Eastern Finland", "originalLabel": "University of Eastern Finland", "shape": "dot", "size": 16, "title": "University of Eastern Finland \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "University of Colorado Denver", "label": "University of Colorado Denver", "originalLabel": "University of Colorado Denver", "shape": "dot", "size": 16, "title": "University of Colorado Denver \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 37, "font": {"color": "#111111"}, "group": 0, "id": "NIDCR NIH HHS", "label": "NIDCR NIH HHS", "originalLabel": "NIDCR NIH HHS", "shape": "dot", "size": 48, "title": "NIDCR NIH HHS \u2014 Community: 0", "value": 20.165525060596437}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 26, "font": {"color": "#111111"}, "group": 0, "id": "NIDDK NIH HHS", "label": "NIDDK NIH HHS", "originalLabel": "NIDDK NIH HHS", "shape": "dot", "size": 41, "title": "NIDDK NIH HHS \u2014 Community: 0", "value": 18.19803902718557}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 1, "id": "Canadian Institutes of Health Research", "label": "Canadian Institutes of Health Research", "originalLabel": "Canadian Institutes of Health Research", "shape": "dot", "size": 16, "title": "Canadian Institutes of Health Research \u2014 Community: 1", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 22, "font": {"color": "#111111"}, "group": 0, "id": "NHGRI NIH HHS", "label": "NHGRI NIH HHS", "originalLabel": "NHGRI NIH HHS", "shape": "dot", "size": 35, "title": "NHGRI NIH HHS \u2014 Community: 0", "value": 17.38083151964686}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Cedars-Sinai Medical Center", "label": "Cedars-Sinai Medical Center", "originalLabel": "Cedars-Sinai Medical Center", "shape": "dot", "size": 16, "title": "Cedars-Sinai Medical Center \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Ben-Gurion University of the Negev", "label": "Ben-Gurion University of the Negev", "originalLabel": "Ben-Gurion University of the Negev", "shape": "dot", "size": 16, "title": "Ben-Gurion University of the Negev \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas", "label": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas", "originalLabel": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas", "shape": "dot", "size": 16, "title": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Jackson Laboratory", "label": "Jackson Laboratory", "originalLabel": "Jackson Laboratory", "shape": "dot", "size": 16, "title": "Jackson Laboratory \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "University of California, Merced", "label": "University of California, Merced", "originalLabel": "University of California, Merced", "shape": "dot", "size": 16, "title": "University of California, Merced \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "University of Southern California", "label": "University of Southern California", "originalLabel": "University of Southern California", "shape": "dot", "size": 16, "title": "University of Southern California \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "University of Pittsburgh", "label": "University of Pittsburgh", "originalLabel": "University of Pittsburgh", "shape": "dot", "size": 16, "title": "University of Pittsburgh \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "University of Colorado Boulder", "label": "University of Colorado Boulder", "originalLabel": "University of Colorado Boulder", "shape": "dot", "size": 16, "title": "University of Colorado Boulder \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "University of Cape Town", "label": "University of Cape Town", "originalLabel": "University of Cape Town", "shape": "dot", "size": 16, "title": "University of Cape Town \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "University of California, Irvine", "label": "University of California, Irvine", "originalLabel": "University of California, Irvine", "shape": "dot", "size": 16, "title": "University of California, Irvine \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Joint Genome Institute", "label": "Joint Genome Institute", "originalLabel": "Joint Genome Institute", "shape": "dot", "size": 16, "title": "Joint Genome Institute \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "University of Alberta", "label": "University of Alberta", "originalLabel": "University of Alberta", "shape": "dot", "size": 16, "title": "University of Alberta \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Stony Brook University", "label": "Stony Brook University", "originalLabel": "Stony Brook University", "shape": "dot", "size": 16, "title": "Stony Brook University \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "McMaster University", "label": "McMaster University", "originalLabel": "McMaster University", "shape": "dot", "size": 16, "title": "McMaster University \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Mary Lyon Centre at MRC Harwell", "label": "Mary Lyon Centre at MRC Harwell", "originalLabel": "Mary Lyon Centre at MRC Harwell", "shape": "dot", "size": 16, "title": "Mary Lyon Centre at MRC Harwell \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 0, "id": "Lawrence Berkeley National Laboratory", "label": "Lawrence Berkeley National Laboratory", "originalLabel": "Lawrence Berkeley National Laboratory", "shape": "dot", "size": 16, "title": "Lawrence Berkeley National Laboratory \u2014 Community: 0", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "University of Notre Dame", "label": "University of Notre Dame", "originalLabel": "University of Notre Dame", "shape": "dot", "size": 16, "title": "University of Notre Dame \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Pennsylvania State University", "label": "Pennsylvania State University", "originalLabel": "Pennsylvania State University", "shape": "dot", "size": 16, "title": "Pennsylvania State University \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 0, "id": "Centre National de la Recherche Scientifique", "label": "Centre National de la Recherche Scientifique", "originalLabel": "Centre National de la Recherche Scientifique", "shape": "dot", "size": 16, "title": "Centre National de la Recherche Scientifique \u2014 Community: 0", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Children\u0027s Hospital of Philadelphia", "label": "Children\u0027s Hospital of Philadelphia", "originalLabel": "Children\u0027s Hospital of Philadelphia", "shape": "dot", "size": 16, "title": "Children\u0027s Hospital of Philadelphia \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "De la Pr\u00e9histoire \u00e0 l\u0027Actuel : Culture, Environnement et Anthropologie", "label": "De la Pr\u00e9histoire \u00e0 l\u0027Actuel : Culture, Environnement et Anthropologie", "originalLabel": "De la Pr\u00e9histoire \u00e0 l\u0027Actuel : Culture, Environnement et Anthropologie", "shape": "dot", "size": 16, "title": "De la Pr\u00e9histoire \u00e0 l\u0027Actuel : Culture, Environnement et Anthropologie \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 0, "id": "Icahn School of Medicine at Mount Sinai", "label": "Icahn School of Medicine at Mount Sinai", "originalLabel": "Icahn School of Medicine at Mount Sinai", "shape": "dot", "size": 16, "title": "Icahn School of Medicine at Mount Sinai \u2014 Community: 0", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Institut des Maladies G\u00e9n\u00e9tiques Imagine", "label": "Institut des Maladies G\u00e9n\u00e9tiques Imagine", "originalLabel": "Institut des Maladies G\u00e9n\u00e9tiques Imagine", "shape": "dot", "size": 16, "title": "Institut des Maladies G\u00e9n\u00e9tiques Imagine \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 0, "id": "Mayo Clinic in Florida", "label": "Mayo Clinic in Florida", "originalLabel": "Mayo Clinic in Florida", "shape": "dot", "size": 16, "title": "Mayo Clinic in Florida \u2014 Community: 0", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Minist\u00e8re de la Culture", "label": "Minist\u00e8re de la Culture", "originalLabel": "Minist\u00e8re de la Culture", "shape": "dot", "size": 16, "title": "Minist\u00e8re de la Culture \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Universit\u00e9 Paris Cit\u00e9", "label": "Universit\u00e9 Paris Cit\u00e9", "originalLabel": "Universit\u00e9 Paris Cit\u00e9", "shape": "dot", "size": 16, "title": "Universit\u00e9 Paris Cit\u00e9 \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 0, "id": "Universit\u00e9 de Bordeaux", "label": "Universit\u00e9 de Bordeaux", "originalLabel": "Universit\u00e9 de Bordeaux", "shape": "dot", "size": 16, "title": "Universit\u00e9 de Bordeaux \u2014 Community: 0", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 9, "font": {"color": "#111111"}, "group": 0, "id": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "label": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "originalLabel": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "shape": "dot", "size": 16, "title": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign \u2014 Community: 0", "value": 14.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 3, "id": "Austrian Science Fund FWF", "label": "Austrian Science Fund FWF", "originalLabel": "Austrian Science Fund FWF", "shape": "dot", "size": 16, "title": "Austrian Science Fund FWF \u2014 Community: 3", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 0, "id": "Agence Nationale de la Recherche (ANR)", "label": "Agence Nationale de la Recherche (ANR)", "originalLabel": "Agence Nationale de la Recherche (ANR)", "shape": "dot", "size": 16, "title": "Agence Nationale de la Recherche (ANR) \u2014 Community: 0", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 3, "id": "University of Zurich", "label": "University of Zurich", "originalLabel": "University of Zurich", "shape": "dot", "size": 16, "title": "University of Zurich \u2014 Community: 3", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 3, "id": "University of Chile", "label": "University of Chile", "originalLabel": "University of Chile", "shape": "dot", "size": 16, "title": "University of Chile \u2014 Community: 3", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 3, "id": "University of Bern", "label": "University of Bern", "originalLabel": "University of Bern", "shape": "dot", "size": 16, "title": "University of Bern \u2014 Community: 3", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 3, "id": "Medical University of Graz", "label": "Medical University of Graz", "originalLabel": "Medical University of Graz", "shape": "dot", "size": 16, "title": "Medical University of Graz \u2014 Community: 3", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 3, "id": "Austrian Cluster for Tissue Regeneration", "label": "Austrian Cluster for Tissue Regeneration", "originalLabel": "Austrian Cluster for Tissue Regeneration", "shape": "dot", "size": 16, "title": "Austrian Cluster for Tissue Regeneration \u2014 Community: 3", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 10, "font": {"color": "#111111"}, "group": 3, "id": "Austrian Science Fund", "label": "Austrian Science Fund", "originalLabel": "Austrian Science Fund", "shape": "dot", "size": 16, "title": "Austrian Science Fund \u2014 Community: 3", "value": 14.32455532033676}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 6, "font": {"color": "#111111"}, "group": 3, "id": "Osteology Foundation", "label": "Osteology Foundation", "originalLabel": "Osteology Foundation", "shape": "dot", "size": 16, "title": "Osteology Foundation \u2014 Community: 3", "value": 12.898979485566356}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 3, "id": "Austrian Academy of Sciences", "label": "Austrian Academy of Sciences", "originalLabel": "Austrian Academy of Sciences", "shape": "dot", "size": 16, "title": "Austrian Academy of Sciences \u2014 Community: 3", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 3, "id": "Ludwig Boltzmann Institute for Digital Health and Prevention", "label": "Ludwig Boltzmann Institute for Digital Health and Prevention", "originalLabel": "Ludwig Boltzmann Institute for Digital Health and Prevention", "shape": "dot", "size": 16, "title": "Ludwig Boltzmann Institute for Digital Health and Prevention \u2014 Community: 3", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 3, "id": "Ludwig Boltzmann Institute for Experimental and Clinical Traumatology", "label": "Ludwig Boltzmann Institute for Experimental and Clinical Traumatology", "originalLabel": "Ludwig Boltzmann Institute for Experimental and Clinical Traumatology", "shape": "dot", "size": 16, "title": "Ludwig Boltzmann Institute for Experimental and Clinical Traumatology \u2014 Community: 3", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 3, "id": "University of Vienna", "label": "University of Vienna", "originalLabel": "University of Vienna", "shape": "dot", "size": 16, "title": "University of Vienna \u2014 Community: 3", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 9, "id": "NIBIB NIH HHS", "label": "NIBIB NIH HHS", "originalLabel": "NIBIB NIH HHS", "shape": "dot", "size": 16, "title": "NIBIB NIH HHS \u2014 Community: 9", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 9, "id": "Varian Medical Systems (United States)", "label": "Varian Medical Systems (United States)", "originalLabel": "Varian Medical Systems (United States)", "shape": "dot", "size": 16, "title": "Varian Medical Systems (United States) \u2014 Community: 9", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 9, "id": "Southwest Research Institute", "label": "Southwest Research Institute", "originalLabel": "Southwest Research Institute", "shape": "dot", "size": 16, "title": "Southwest Research Institute \u2014 Community: 9", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 9, "id": "The University of Texas Health Science Center at San Antonio", "label": "The University of Texas Health Science Center at San Antonio", "originalLabel": "The University of Texas Health Science Center at San Antonio", "shape": "dot", "size": 16, "title": "The University of Texas Health Science Center at San Antonio \u2014 Community: 9", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 9, "id": "Canon (United States)", "label": "Canon (United States)", "originalLabel": "Canon (United States)", "shape": "dot", "size": 16, "title": "Canon (United States) \u2014 Community: 9", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 11, "id": "NIDA NIH HHS", "label": "NIDA NIH HHS", "originalLabel": "NIDA NIH HHS", "shape": "dot", "size": 16, "title": "NIDA NIH HHS \u2014 Community: 11", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 11, "id": "University of Rochester", "label": "University of Rochester", "originalLabel": "University of Rochester", "shape": "dot", "size": 16, "title": "University of Rochester \u2014 Community: 11", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 11, "id": "Marquette University", "label": "Marquette University", "originalLabel": "Marquette University", "shape": "dot", "size": 16, "title": "Marquette University \u2014 Community: 11", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 11, "id": "Ludwig-Maximilians-Universit\u00e4t M\u00fcnchen", "label": "Ludwig-Maximilians-Universit\u00e4t M\u00fcnchen", "originalLabel": "Ludwig-Maximilians-Universit\u00e4t M\u00fcnchen", "shape": "dot", "size": 16, "title": "Ludwig-Maximilians-Universit\u00e4t M\u00fcnchen \u2014 Community: 11", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 4, "id": "New Frontiers in Research Fund Exploration", "label": "New Frontiers in Research Fund Exploration", "originalLabel": "New Frontiers in Research Fund Exploration", "shape": "dot", "size": 16, "title": "New Frontiers in Research Fund Exploration \u2014 Community: 4", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 7, "font": {"color": "#111111"}, "group": 4, "id": "Australian Research Council", "label": "Australian Research Council", "originalLabel": "Australian Research Council", "shape": "dot", "size": 16, "title": "Australian Research Council \u2014 Community: 4", "value": 13.291502622129181}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 0, "id": "NIDCD NIH HHS", "label": "NIDCD NIH HHS", "originalLabel": "NIDCD NIH HHS", "shape": "dot", "size": 16, "title": "NIDCD NIH HHS \u2014 Community: 0", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 6, "font": {"color": "#111111"}, "group": 5, "id": "Swedish Research Council", "label": "Swedish Research Council", "originalLabel": "Swedish Research Council", "shape": "dot", "size": 16, "title": "Swedish Research Council \u2014 Community: 5", "value": 12.898979485566356}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "University of Sk\u00f6vde", "label": "University of Sk\u00f6vde", "originalLabel": "University of Sk\u00f6vde", "shape": "dot", "size": 16, "title": "University of Sk\u00f6vde \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "University of Gothenburg", "label": "University of Gothenburg", "originalLabel": "University of Gothenburg", "shape": "dot", "size": 16, "title": "University of Gothenburg \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "Profu (Sweden)", "label": "Profu (Sweden)", "originalLabel": "Profu (Sweden)", "shape": "dot", "size": 16, "title": "Profu (Sweden) \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "Region V\u00e4stra G\u00f6taland", "label": "Region V\u00e4stra G\u00f6taland", "originalLabel": "Region V\u00e4stra G\u00f6taland", "shape": "dot", "size": 16, "title": "Region V\u00e4stra G\u00f6taland \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "Sahlgrenska University Hospital", "label": "Sahlgrenska University Hospital", "originalLabel": "Sahlgrenska University Hospital", "shape": "dot", "size": 16, "title": "Sahlgrenska University Hospital \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 5, "id": "Swedish Society for Nature Conservation", "label": "Swedish Society for Nature Conservation", "originalLabel": "Swedish Society for Nature Conservation", "shape": "dot", "size": 16, "title": "Swedish Society for Nature Conservation \u2014 Community: 5", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 6, "font": {"color": "#111111"}, "group": 5, "id": "Statistiska Konsultgruppen Sweden AB", "label": "Statistiska Konsultgruppen Sweden AB", "originalLabel": "Statistiska Konsultgruppen Sweden AB", "shape": "dot", "size": 16, "title": "Statistiska Konsultgruppen Sweden AB \u2014 Community: 5", "value": 12.898979485566356}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 6, "font": {"color": "#111111"}, "group": 4, "id": "University of Saskatchewan", "label": "University of Saskatchewan", "originalLabel": "University of Saskatchewan", "shape": "dot", "size": 16, "title": "University of Saskatchewan \u2014 Community: 4", "value": 12.898979485566356}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 4, "id": "Natural Sciences and Engineering Research Council of Canada", "label": "Natural Sciences and Engineering Research Council of Canada", "originalLabel": "Natural Sciences and Engineering Research Council of Canada", "shape": "dot", "size": 16, "title": "Natural Sciences and Engineering Research Council of Canada \u2014 Community: 4", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 4, "id": "Discovery Grants", "label": "Discovery Grants", "originalLabel": "Discovery Grants", "shape": "dot", "size": 16, "title": "Discovery Grants \u2014 Community: 4", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 6, "id": "University of Michigan", "label": "University of Michigan", "originalLabel": "University of Michigan", "shape": "dot", "size": 16, "title": "University of Michigan \u2014 Community: 6", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 6, "id": "University of Michigan\u2013Ann Arbor", "label": "University of Michigan\u2013Ann Arbor", "originalLabel": "University of Michigan\u2013Ann Arbor", "shape": "dot", "size": 16, "title": "University of Michigan\u2013Ann Arbor \u2014 Community: 6", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 6, "id": "University of California, Berkeley", "label": "University of California, Berkeley", "originalLabel": "University of California, Berkeley", "shape": "dot", "size": 16, "title": "University of California, Berkeley \u2014 Community: 6", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 6, "id": "Museum of Vertebrate Zoology", "label": "Museum of Vertebrate Zoology", "originalLabel": "Museum of Vertebrate Zoology", "shape": "dot", "size": 16, "title": "Museum of Vertebrate Zoology \u2014 Community: 6", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 6, "id": "Florida Gulf Coast University", "label": "Florida Gulf Coast University", "originalLabel": "Florida Gulf Coast University", "shape": "dot", "size": 16, "title": "Florida Gulf Coast University \u2014 Community: 6", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 6, "id": "National Science Foundation", "label": "National Science Foundation", "originalLabel": "National Science Foundation", "shape": "dot", "size": 16, "title": "National Science Foundation \u2014 Community: 6", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 4, "font": {"color": "#111111"}, "group": 6, "id": "David and Lucile Packard Foundation", "label": "David and Lucile Packard Foundation", "originalLabel": "David and Lucile Packard Foundation", "shape": "dot", "size": 16, "title": "David and Lucile Packard Foundation \u2014 Community: 6", "value": 12.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 4, "id": "Universit\u00e9 Paris-Est Cr\u00e9teil", "label": "Universit\u00e9 Paris-Est Cr\u00e9teil", "originalLabel": "Universit\u00e9 Paris-Est Cr\u00e9teil", "shape": "dot", "size": 16, "title": "Universit\u00e9 Paris-Est Cr\u00e9teil \u2014 Community: 4", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 4, "id": "Universit\u00e9 Gustave Eiffel", "label": "Universit\u00e9 Gustave Eiffel", "originalLabel": "Universit\u00e9 Gustave Eiffel", "shape": "dot", "size": 16, "title": "Universit\u00e9 Gustave Eiffel \u2014 Community: 4", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 4, "id": "Queensland University of Technology", "label": "Queensland University of Technology", "originalLabel": "Queensland University of Technology", "shape": "dot", "size": 16, "title": "Queensland University of Technology \u2014 Community: 4", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 4, "id": "Paris-Est Sup", "label": "Paris-Est Sup", "originalLabel": "Paris-Est Sup", "shape": "dot", "size": 16, "title": "Paris-Est Sup \u2014 Community: 4", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 4, "id": "Laboratoire Mod\u00e9lisation et Simulation Multi-Echelle", "label": "Laboratoire Mod\u00e9lisation et Simulation Multi-Echelle", "originalLabel": "Laboratoire Mod\u00e9lisation et Simulation Multi-Echelle", "shape": "dot", "size": 16, "title": "Laboratoire Mod\u00e9lisation et Simulation Multi-Echelle \u2014 Community: 4", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 14, "id": "National Centre for the Replacement, Refinement and Reduction of Animals in Research", "label": "National Centre for the Replacement, Refinement and Reduction of Animals in Research", "originalLabel": "National Centre for the Replacement, Refinement and Reduction of Animals in Research", "shape": "dot", "size": 16, "title": "National Centre for the Replacement, Refinement and Reduction of Animals in Research \u2014 Community: 14", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 14, "id": "University of Cambridge", "label": "University of Cambridge", "originalLabel": "University of Cambridge", "shape": "dot", "size": 16, "title": "University of Cambridge \u2014 Community: 14", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 14, "id": "University of Sheffield", "label": "University of Sheffield", "originalLabel": "University of Sheffield", "shape": "dot", "size": 16, "title": "University of Sheffield \u2014 Community: 14", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 12, "id": "Research Grants Council (RGC) of Hong Kong SAR", "label": "Research Grants Council (RGC) of Hong Kong SAR", "originalLabel": "Research Grants Council (RGC) of Hong Kong SAR", "shape": "dot", "size": 16, "title": "Research Grants Council (RGC) of Hong Kong SAR \u2014 Community: 12", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 12, "id": "Chinese University of Hong Kong", "label": "Chinese University of Hong Kong", "originalLabel": "Chinese University of Hong Kong", "shape": "dot", "size": 16, "title": "Chinese University of Hong Kong \u2014 Community: 12", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 12, "id": "Prince of Wales Hospital", "label": "Prince of Wales Hospital", "originalLabel": "Prince of Wales Hospital", "shape": "dot", "size": 16, "title": "Prince of Wales Hospital \u2014 Community: 12", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 12, "id": "American Society for Bone and Mineral Research (ASBMR) Rising Star Award (2020)", "label": "American Society for Bone and Mineral Research (ASBMR) Rising Star Award (2020)", "originalLabel": "American Society for Bone and Mineral Research (ASBMR) Rising Star Award (2020)", "shape": "dot", "size": 16, "title": "American Society for Bone and Mineral Research (ASBMR) Rising Star Award (2020) \u2014 Community: 12", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 0, "id": "Centre de Recherche en Acquisition et Traitement de l\u0027Image pour la Sant\u00e9", "label": "Centre de Recherche en Acquisition et Traitement de l\u0027Image pour la Sant\u00e9", "originalLabel": "Centre de Recherche en Acquisition et Traitement de l\u0027Image pour la Sant\u00e9", "shape": "dot", "size": 16, "title": "Centre de Recherche en Acquisition et Traitement de l\u0027Image pour la Sant\u00e9 \u2014 Community: 0", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "University of British Columbia", "label": "University of British Columbia", "originalLabel": "University of British Columbia", "shape": "dot", "size": 16, "title": "University of British Columbia \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 1, "id": "Child and Family Research Institute", "label": "Child and Family Research Institute", "originalLabel": "Child and Family Research Institute", "shape": "dot", "size": 16, "title": "Child and Family Research Institute \u2014 Community: 1", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 10, "id": "COMET program - Competence Centers for Excellent Technologies Center: VASCage (Centre for Promoting Vascular Health in the Ageing Community)", "label": "COMET program - Competence Centers for Excellent Technologies Center: VASCage (Centre for Promoting Vascular Health in the Ageing Community)", "originalLabel": "COMET program - Competence Centers for Excellent Technologies Center: VASCage (Centre for Promoting Vascular Health in the Ageing Community)", "shape": "dot", "size": 16, "title": "COMET program - Competence Centers for Excellent Technologies Center: VASCage (Centre for Promoting Vascular Health in the Ageing Community) \u2014 Community: 10", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 10, "id": "Universit\u00e4t Innsbruck", "label": "Universit\u00e4t Innsbruck", "originalLabel": "Universit\u00e4t Innsbruck", "shape": "dot", "size": 16, "title": "Universit\u00e4t Innsbruck \u2014 Community: 10", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 10, "id": "Johnson \u0026 Johnson Medical Products GmbH", "label": "Johnson \u0026 Johnson Medical Products GmbH", "originalLabel": "Johnson \u0026 Johnson Medical Products GmbH", "shape": "dot", "size": 16, "title": "Johnson \u0026 Johnson Medical Products GmbH \u2014 Community: 10", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 7, "id": "Biotechnology and Biological Sciences Research Council", "label": "Biotechnology and Biological Sciences Research Council", "originalLabel": "Biotechnology and Biological Sciences Research Council", "shape": "dot", "size": 16, "title": "Biotechnology and Biological Sciences Research Council \u2014 Community: 7", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 7, "id": "University of York", "label": "University of York", "originalLabel": "University of York", "shape": "dot", "size": 16, "title": "University of York \u2014 Community: 7", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 7, "id": "University of Hull", "label": "University of Hull", "originalLabel": "University of Hull", "shape": "dot", "size": 16, "title": "University of Hull \u2014 Community: 7", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 7, "id": "University of Aberdeen", "label": "University of Aberdeen", "originalLabel": "University of Aberdeen", "shape": "dot", "size": 16, "title": "University of Aberdeen \u2014 Community: 7", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 7, "id": "Liverpool John Moores University", "label": "Liverpool John Moores University", "originalLabel": "Liverpool John Moores University", "shape": "dot", "size": 16, "title": "Liverpool John Moores University \u2014 Community: 7", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 7, "id": "Hull York Medical School", "label": "Hull York Medical School", "originalLabel": "Hull York Medical School", "shape": "dot", "size": 16, "title": "Hull York Medical School \u2014 Community: 7", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 10, "id": "University Hospital Innsbruck", "label": "University Hospital Innsbruck", "originalLabel": "University Hospital Innsbruck", "shape": "dot", "size": 16, "title": "University Hospital Innsbruck \u2014 Community: 10", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 10, "id": "Innsbruck Medical University", "label": "Innsbruck Medical University", "originalLabel": "Innsbruck Medical University", "shape": "dot", "size": 16, "title": "Innsbruck Medical University \u2014 Community: 10", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 3, "font": {"color": "#111111"}, "group": 13, "id": "H2020 European Research Council", "label": "H2020 European Research Council", "originalLabel": "H2020 European Research Council", "shape": "dot", "size": 16, "title": "H2020 European Research Council \u2014 Community: 13", "value": 11.464101615137753}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 13, "id": "University of Kent", "label": "University of Kent", "originalLabel": "University of Kent", "shape": "dot", "size": 16, "title": "University of Kent \u2014 Community: 13", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 13, "id": "Max Planck Institute for Evolutionary Anthropology", "label": "Max Planck Institute for Evolutionary Anthropology", "originalLabel": "Max Planck Institute for Evolutionary Anthropology", "shape": "dot", "size": 16, "title": "Max Planck Institute for Evolutionary Anthropology \u2014 Community: 13", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 13, "id": "Institute for Biodiversity", "label": "Institute for Biodiversity", "originalLabel": "Institute for Biodiversity", "shape": "dot", "size": 16, "title": "Institute for Biodiversity \u2014 Community: 13", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 5, "font": {"color": "#111111"}, "group": 8, "id": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "label": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "originalLabel": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "shape": "dot", "size": 16, "title": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT) \u2014 Community: 8", "value": 12.47213595499958}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 8, "id": "University of T\u00fcbingen", "label": "University of T\u00fcbingen", "originalLabel": "University of T\u00fcbingen", "shape": "dot", "size": 16, "title": "University of T\u00fcbingen \u2014 Community: 8", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 8, "id": "University of Hohenheim", "label": "University of Hohenheim", "originalLabel": "University of Hohenheim", "shape": "dot", "size": 16, "title": "University of Hohenheim \u2014 Community: 8", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 8, "id": "Staatliches Museum f\u00fcr Naturkunde Stuttgart", "label": "Staatliches Museum f\u00fcr Naturkunde Stuttgart", "originalLabel": "Staatliches Museum f\u00fcr Naturkunde Stuttgart", "shape": "dot", "size": 16, "title": "Staatliches Museum f\u00fcr Naturkunde Stuttgart \u2014 Community: 8", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 8, "id": "Institute of Zoology of the Slovak Academy of Sciences", "label": "Institute of Zoology of the Slovak Academy of Sciences", "originalLabel": "Institute of Zoology of the Slovak Academy of Sciences", "shape": "dot", "size": 16, "title": "Institute of Zoology of the Slovak Academy of Sciences \u2014 Community: 8", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 8, "id": "Institute of Zoology", "label": "Institute of Zoology", "originalLabel": "Institute of Zoology", "shape": "dot", "size": 16, "title": "Institute of Zoology \u2014 Community: 8", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 16, "id": "Deutsche Forschungsgemeinschaft (DFG), German Research Foundation", "label": "Deutsche Forschungsgemeinschaft (DFG), German Research Foundation", "originalLabel": "Deutsche Forschungsgemeinschaft (DFG), German Research Foundation", "shape": "dot", "size": 16, "title": "Deutsche Forschungsgemeinschaft (DFG), German Research Foundation \u2014 Community: 16", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 16, "id": "Saarland University", "label": "Saarland University", "originalLabel": "Saarland University", "shape": "dot", "size": 16, "title": "Saarland University \u2014 Community: 16", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 2, "font": {"color": "#111111"}, "group": 15, "id": "KAKENHI", "label": "KAKENHI", "originalLabel": "KAKENHI", "shape": "dot", "size": 16, "title": "KAKENHI \u2014 Community: 15", "value": 10.82842712474619}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 15, "id": "Okayama University", "label": "Okayama University", "originalLabel": "Okayama University", "shape": "dot", "size": 16, "title": "Okayama University \u2014 Community: 15", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 15, "id": "Osaka University", "label": "Osaka University", "originalLabel": "Osaka University", "shape": "dot", "size": 16, "title": "Osaka University \u2014 Community: 15", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 17, "id": "NCI NIH HHS", "label": "NCI NIH HHS", "originalLabel": "NCI NIH HHS", "shape": "dot", "size": 16, "title": "NCI NIH HHS \u2014 Community: 17", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 17, "id": "University of California, Los Angeles", "label": "University of California, Los Angeles", "originalLabel": "University of California, Los Angeles", "shape": "dot", "size": 16, "title": "University of California, Los Angeles \u2014 Community: 17", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 18, "id": "Zweig Memorial Fund for Equine Research", "label": "Zweig Memorial Fund for Equine Research", "originalLabel": "Zweig Memorial Fund for Equine Research", "shape": "dot", "size": 16, "title": "Zweig Memorial Fund for Equine Research \u2014 Community: 18", "value": 10.0}, {"borderWidth": 2, "borderWidthSelected": 3, "degree": 1, "font": {"color": "#111111"}, "group": 18, "id": "Cornell University", "label": "Cornell University", "originalLabel": "Cornell University", "shape": "dot", "size": 16, "title": "Cornell University \u2014 Community: 18", "value": 10.0}]);
+                  edges = new vis.DataSet([{"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "University of Southampton", "value": 6.0, "width": 6.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "MRC Lifecourse Epidemiology Unit", "value": 6.0, "width": 6.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "MRC Human Nutrition Research", "value": 4.0, "width": 4.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "University of Oxford", "value": 4.0, "width": 4.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "Victoria University of Wellington", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "University Hospital Southampton NHS Foundation Trust", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "NIHR Southampton Biomedical Research Centre", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "Oxford BioMedica (United Kingdom)", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "Southampton General Hospital", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "NIHR Oxford Musculoskeletal Biomedical Research Centre", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "Gda\u0144sk Medical University", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "Manchester Academic Health Science Centre", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "University of Manchester", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "University of Bristol", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "The Alan Turing Institute", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "Queen Alexandra Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Medical Research Council", "to": "Portsmouth Hospitals NHS Trust", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University of Southampton", "to": "Versus Arthritis", "value": 5.0, "width": 5.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University of Southampton", "to": "Arthritis Research UK", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University of Southampton", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University of Southampton", "to": "Department of Health", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "MRC Lifecourse Epidemiology Unit", "to": "Versus Arthritis", "value": 5.0, "width": 5.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "MRC Lifecourse Epidemiology Unit", "to": "Arthritis Research UK", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "MRC Lifecourse Epidemiology Unit", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "MRC Lifecourse Epidemiology Unit", "to": "Department of Health", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "University of Oxford", "value": 4.0, "width": 4.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "MRC Human Nutrition Research", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Victoria University of Wellington", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "University Hospital Southampton NHS Foundation Trust", "value": 3.0, "width": 3.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "NIHR Oxford Musculoskeletal Biomedical Research Centre", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "NIHR Southampton Biomedical Research Centre", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Oxford BioMedica (United Kingdom)", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "University of Manchester", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "University of Bristol", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "The Alan Turing Institute", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Southampton General Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Royal Veterinary College", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Queen Alexandra Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Merck (Germany)", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Manchester Academic Health Science Centre", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Versus Arthritis", "to": "Gda\u0144sk Medical University", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Mayo Clinic", "value": 4.0, "width": 4.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Universit\u00e9 d\u0027Orl\u00e9ans", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Harvard University", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Universit\u00e9 Claude Bernard Lyon 1", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "University of California, San Francisco", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "University of Geneva", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Boston University", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Beth Israel Deaconess Medical Center", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Beth Israel Deaconess Hospital", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Alberta Bone and Joint Health Institute", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Hebrew SeniorLife", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "H\u00f4pital Edouard Herriot", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Massachusetts General Hospital", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "McGill University Health Centre", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Public Health Ontario", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "University Health Network", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "University of Calgary", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Centre hospitalier r\u00e9gional d\u0027Orl\u00e9ans", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Washington University in St. Louis", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "University of Toronto", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Nagasaki University", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Health Net", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Indiana University Indianapolis", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Indiana University \u2013 Purdue University Indianapolis", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Laboratoire d\u2019Imagerie Biom\u00e9dicale", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Loyola University Chicago", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Mayo Clinic in Arizona", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Medical University of Vienna", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "University of Pennsylvania", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Purdue University West Lafayette", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "The University of Texas at Tyler", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "University of Colorado Anschutz Medical Campus", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "Boston Medical Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NIAMS NIH HHS", "to": "3M (United States)", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Mayo Clinic", "to": "NHLBI NIH HHS", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Mayo Clinic", "to": "CIHR", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Mayo Clinic", "to": "NCRR NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of Calgary", "value": 4.0, "width": 4.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Alberta Bone and Joint Health Institute", "value": 3.0, "width": 3.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Raytheon Technologies (Finland)", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Oulu University Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "McGill University Health Centre", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "McGill University", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Massachusetts General Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "H\u00f4pital Edouard Herriot", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Hebrew SeniorLife", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Harvard University", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Centre hospitalier r\u00e9gional d\u0027Orl\u00e9ans", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Beth Israel Deaconess Medical Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Beth Israel Deaconess Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Alberta Children\u0027s Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Public Health Ontario", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "UNC Lineberger Comprehensive Cancer Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University Health Network", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Weizmann Institute of Science", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Universit\u00e9 d\u0027Orl\u00e9ans", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "Universit\u00e9 Claude Bernard Lyon 1", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of Toronto", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of Oulu", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of North Carolina at Chapel Hill", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of Geneva", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of Eastern Finland", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of Colorado Denver", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "CIHR", "to": "University of California, San Francisco", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of Calgary", "to": "NHLBI NIH HHS", "value": 3.0, "width": 3.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of Calgary", "to": "NIDCR NIH HHS", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of Calgary", "to": "NIDDK NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of Calgary", "to": "Canadian Institutes of Health Research", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of Calgary", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University of Oxford", "to": "Arthritis Research UK", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University of Oxford", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "MRC Human Nutrition Research", "to": "Arthritis Research UK", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "MRC Human Nutrition Research", "to": "Department of Health", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Alberta Bone and Joint Health Institute", "value": 3.0, "width": 3.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Beth Israel Deaconess Medical Center", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Beth Israel Deaconess Hospital", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Centre hospitalier r\u00e9gional d\u0027Orl\u00e9ans", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Harvard University", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Universit\u00e9 d\u0027Orl\u00e9ans", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Universit\u00e9 Claude Bernard Lyon 1", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Geneva", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University Health Network", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Public Health Ontario", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "McGill University Health Centre", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Massachusetts General Hospital", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "H\u00f4pital Edouard Herriot", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Hebrew SeniorLife", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Cedars-Sinai Medical Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Boston Medical Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Ben-Gurion University of the Negev", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Alberta Children\u0027s Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "3M (United States)", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Health Net", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Jackson Laboratory", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of California, Merced", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Toronto", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Southern California", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Pittsburgh", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Colorado Boulder", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Colorado Anschutz Medical Campus", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Cape Town", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of California, San Francisco", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of California, Irvine", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Joint Genome Institute", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "University of Alberta", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Stony Brook University", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "McMaster University", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Mary Lyon Centre at MRC Harwell", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Loyola University Chicago", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "NHLBI NIH HHS", "to": "Lawrence Berkeley National Laboratory", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Alberta Bone and Joint Health Institute", "to": "NIDCR NIH HHS", "value": 2.0, "width": 2.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Alberta Bone and Joint Health Institute", "to": "NIDDK NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Alberta Bone and Joint Health Institute", "to": "Canadian Institutes of Health Research", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Alberta Bone and Joint Health Institute", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Victoria University of Wellington", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University Hospital Southampton NHS Foundation Trust", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University Hospital Southampton NHS Foundation Trust", "to": "Arthritis Research UK", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "NIHR Southampton Biomedical Research Centre", "value": 2.0, "width": 2.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "University of Manchester", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "Southampton General Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "Portsmouth Hospitals NHS Trust", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "Oxford BioMedica (United Kingdom)", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "NIHR Oxford Musculoskeletal Biomedical Research Centre", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "Manchester Academic Health Science Centre", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Arthritis Research UK", "to": "Gda\u0144sk Medical University", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "NIHR Southampton Biomedical Research Centre", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "NIHR Southampton Biomedical Research Centre", "to": "Department of Health", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Oxford BioMedica (United Kingdom)", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Alberta Children\u0027s Hospital", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Notre Dame", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Pennsylvania State University", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of California, San Francisco", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Cedars-Sinai Medical Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Ben-Gurion University of the Negev", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Centre National de la Recherche Scientifique", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Children\u0027s Hospital of Philadelphia", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "De la Pr\u00e9histoire \u00e0 l\u0027Actuel : Culture, Environnement et Anthropologie", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Icahn School of Medicine at Mount Sinai", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Institut des Maladies G\u00e9n\u00e9tiques Imagine", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Jackson Laboratory", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Joint Genome Institute", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Lawrence Berkeley National Laboratory", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Loyola University Chicago", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Mary Lyon Centre at MRC Harwell", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Mayo Clinic in Florida", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "McMaster University", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Minist\u00e8re de la Culture", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Stony Brook University", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of California, Merced", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of California, Irvine", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Alberta", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "UNC Lineberger Comprehensive Cancer Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Cape Town", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Universit\u00e9 Paris Cit\u00e9", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "Universit\u00e9 de Bordeaux", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Southern California", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Colorado Anschutz Medical Campus", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Pittsburgh", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Pennsylvania", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of North Carolina at Chapel Hill", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Colorado Denver", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCR NIH HHS", "to": "University of Colorado Boulder", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Alberta Children\u0027s Hospital", "to": "NIDDK NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Alberta Children\u0027s Hospital", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Notre Dame", "to": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Pennsylvania State University", "to": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Southampton General Hospital", "to": "Department of Health", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of California, San Francisco", "to": "NIDDK NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of California, San Francisco", "to": "Austrian Science Fund FWF", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "University of California, San Francisco", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Universit\u00e9 Claude Bernard Lyon 1", "to": "Agence Nationale de la Recherche (ANR)", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Boston University", "to": "NCRR NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Loyola University Chicago", "value": 2.0, "width": 2.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of Colorado Boulder", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of Colorado Anschutz Medical Campus", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of Cape Town", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of California, Merced", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of California, Irvine", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of Alberta", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of Southern California", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Stony Brook University", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Purdue University West Lafayette", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "McMaster University", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Mary Lyon Centre at MRC Harwell", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Lawrence Berkeley National Laboratory", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "University of Pittsburgh", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Washington University in St. Louis", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Jackson Laboratory", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Joint Genome Institute", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Indiana University \u2013 Purdue University Indianapolis", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Indiana University Indianapolis", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Cedars-Sinai Medical Center", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDDK NIH HHS", "to": "Ben-Gurion University of the Negev", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Loyola University Chicago", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund FWF", "to": "Medical University of Vienna", "value": 2.0, "width": 2.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund FWF", "to": "University of Zurich", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund FWF", "to": "University of Chile", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund FWF", "to": "University of Bern", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund FWF", "to": "Medical University of Graz", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund FWF", "to": "Austrian Cluster for Tissue Regeneration", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Medical University of Vienna", "to": "Austrian Science Fund", "value": 2.0, "width": 2.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Medical University of Vienna", "to": "Osteology Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "Austrian Cluster for Tissue Regeneration", "value": 2.0, "width": 2.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "Austrian Academy of Sciences", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "Ludwig Boltzmann Institute for Digital Health and Prevention", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "Ludwig Boltzmann Institute for Experimental and Clinical Traumatology", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "University of Zurich", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "University of Vienna", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "University of Chile", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "University of Bern", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Science Fund", "to": "Medical University of Graz", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Austrian Cluster for Tissue Regeneration", "to": "Osteology Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Osteology Foundation", "to": "Medical University of Graz", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Osteology Foundation", "to": "University of Bern", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Osteology Foundation", "to": "University of Chile", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffa807", "highlight": "#ffa807", "hover": "#ffa807"}, "from": "Osteology Foundation", "to": "University of Zurich", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffdac1", "highlight": "#ffdac1", "hover": "#ffdac1"}, "from": "NIBIB NIH HHS", "to": "Varian Medical Systems (United States)", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffdac1", "highlight": "#ffdac1", "hover": "#ffdac1"}, "from": "NIBIB NIH HHS", "to": "Southwest Research Institute", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffdac1", "highlight": "#ffdac1", "hover": "#ffdac1"}, "from": "NIBIB NIH HHS", "to": "The University of Texas Health Science Center at San Antonio", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffdac1", "highlight": "#ffdac1", "hover": "#ffdac1"}, "from": "NIBIB NIH HHS", "to": "Canon (United States)", "value": 1.0, "width": 1.0}, {"color": {"color": "#ff9aa2", "highlight": "#ff9aa2", "hover": "#ff9aa2"}, "from": "NIDA NIH HHS", "to": "University of Rochester", "value": 1.0, "width": 1.0}, {"color": {"color": "#ff9aa2", "highlight": "#ff9aa2", "hover": "#ff9aa2"}, "from": "NIDA NIH HHS", "to": "Marquette University", "value": 1.0, "width": 1.0}, {"color": {"color": "#ff9aa2", "highlight": "#ff9aa2", "hover": "#ff9aa2"}, "from": "NIDA NIH HHS", "to": "Ludwig-Maximilians-Universit\u00e4t M\u00fcnchen", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "to": "Centre National de la Recherche Scientifique", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "to": "Children\u0027s Hospital of Philadelphia", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "to": "De la Pr\u00e9histoire \u00e0 l\u0027Actuel : Culture, Environnement et Anthropologie", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "to": "Institut des Maladies G\u00e9n\u00e9tiques Imagine", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "to": "Minist\u00e8re de la Culture", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "to": "Universit\u00e9 Paris Cit\u00e9", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Bordeaux Initiative of Excellence (IdEx Bordeaux) Visiting Scholars campaign", "to": "Universit\u00e9 de Bordeaux", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Centre National de la Recherche Scientifique", "to": "New Frontiers in Research Fund Exploration", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Centre National de la Recherche Scientifique", "to": "Agence Nationale de la Recherche (ANR)", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Centre National de la Recherche Scientifique", "to": "Australian Research Council", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "NIDCD NIH HHS", "to": "University of Pennsylvania", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Cedars-Sinai Medical Center", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Swedish Research Council", "to": "University of Sk\u00f6vde", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Swedish Research Council", "to": "University of Gothenburg", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Swedish Research Council", "to": "Profu (Sweden)", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Swedish Research Council", "to": "Region V\u00e4stra G\u00f6taland", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Swedish Research Council", "to": "Sahlgrenska University Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Swedish Research Council", "to": "Swedish Society for Nature Conservation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "University of Sk\u00f6vde", "to": "Statistiska Konsultgruppen Sweden AB", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Ben-Gurion University of the Negev", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Consejo Nacional de Investigaciones Cient\u00edficas y T\u00e9cnicas", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Jackson Laboratory", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Joint Genome Institute", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Lawrence Berkeley National Laboratory", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Mary Lyon Centre at MRC Harwell", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "University of Bristol", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "The Alan Turing Institute", "to": "British Heart Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Laboratoire d\u2019Imagerie Biom\u00e9dicale", "to": "NCRR NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Mayo Clinic in Arizona", "to": "NCRR NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "University of Saskatchewan", "to": "University of Saskatchewan", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "University of Saskatchewan", "to": "New Frontiers in Research Fund Exploration", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "University of Saskatchewan", "to": "Natural Sciences and Engineering Research Council of Canada", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "University of Saskatchewan", "to": "Australian Research Council", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "University of Saskatchewan", "to": "Discovery Grants", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of Michigan", "to": "University of Michigan\u2013Ann Arbor", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of Michigan", "to": "University of California, Berkeley", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of Michigan", "to": "Museum of Vertebrate Zoology", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of Michigan", "to": "Florida Gulf Coast University", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of Michigan\u2013Ann Arbor", "to": "National Science Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of Michigan\u2013Ann Arbor", "to": "David and Lucile Packard Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of California, Berkeley", "to": "National Science Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "University of California, Berkeley", "to": "David and Lucile Packard Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "Museum of Vertebrate Zoology", "to": "National Science Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "Museum of Vertebrate Zoology", "to": "David and Lucile Packard Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Colorado Anschutz Medical Campus", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "Florida Gulf Coast University", "to": "National Science Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c2fabc", "highlight": "#c2fabc", "hover": "#c2fabc"}, "from": "Florida Gulf Coast University", "to": "David and Lucile Packard Foundation", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "McMaster University", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "University of Gothenburg", "to": "Statistiska Konsultgruppen Sweden AB", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Colorado Boulder", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Cape Town", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of California, Merced", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of California, Irvine", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Alberta", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Southern California", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Stony Brook University", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "University of Pittsburgh", "to": "NHGRI NIH HHS", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "New Frontiers in Research Fund Exploration", "to": "Universit\u00e9 Paris-Est Cr\u00e9teil", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "New Frontiers in Research Fund Exploration", "to": "Universit\u00e9 Gustave Eiffel", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "New Frontiers in Research Fund Exploration", "to": "Queensland University of Technology", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "New Frontiers in Research Fund Exploration", "to": "Paris-Est Sup", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "New Frontiers in Research Fund Exploration", "to": "Laboratoire Mod\u00e9lisation et Simulation Multi-Echelle", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "Universit\u00e9 Paris-Est Cr\u00e9teil", "to": "Australian Research Council", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "Universit\u00e9 Gustave Eiffel", "to": "Australian Research Council", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "Queensland University of Technology", "to": "Australian Research Council", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "Paris-Est Sup", "to": "Australian Research Council", "value": 1.0, "width": 1.0}, {"color": {"color": "#eb7df4", "highlight": "#eb7df4", "hover": "#eb7df4"}, "from": "Laboratoire Mod\u00e9lisation et Simulation Multi-Echelle", "to": "Australian Research Council", "value": 1.0, "width": 1.0}, {"color": {"color": "#9ad0f5", "highlight": "#9ad0f5", "hover": "#9ad0f5"}, "from": "National Centre for the Replacement, Refinement and Reduction of Animals in Research", "to": "University of Cambridge", "value": 1.0, "width": 1.0}, {"color": {"color": "#9ad0f5", "highlight": "#9ad0f5", "hover": "#9ad0f5"}, "from": "National Centre for the Replacement, Refinement and Reduction of Animals in Research", "to": "University of Sheffield", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Statistiska Konsultgruppen Sweden AB", "to": "Profu (Sweden)", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Statistiska Konsultgruppen Sweden AB", "to": "Region V\u00e4stra G\u00f6taland", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Statistiska Konsultgruppen Sweden AB", "to": "Sahlgrenska University Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#c0c0c0", "highlight": "#c0c0c0", "hover": "#c0c0c0"}, "from": "Statistiska Konsultgruppen Sweden AB", "to": "Swedish Society for Nature Conservation", "value": 1.0, "width": 1.0}, {"color": {"color": "#c7ceea", "highlight": "#c7ceea", "hover": "#c7ceea"}, "from": "Research Grants Council (RGC) of Hong Kong SAR", "to": "Chinese University of Hong Kong", "value": 1.0, "width": 1.0}, {"color": {"color": "#c7ceea", "highlight": "#c7ceea", "hover": "#c7ceea"}, "from": "Research Grants Council (RGC) of Hong Kong SAR", "to": "Prince of Wales Hospital", "value": 1.0, "width": 1.0}, {"color": {"color": "#c7ceea", "highlight": "#c7ceea", "hover": "#c7ceea"}, "from": "Chinese University of Hong Kong", "to": "American Society for Bone and Mineral Research (ASBMR) Rising Star Award (2020)", "value": 1.0, "width": 1.0}, {"color": {"color": "#c7ceea", "highlight": "#c7ceea", "hover": "#c7ceea"}, "from": "Prince of Wales Hospital", "to": "American Society for Bone and Mineral Research (ASBMR) Rising Star Award (2020)", "value": 1.0, "width": 1.0}, {"color": {"color": "#97c2fc", "highlight": "#97c2fc", "hover": "#97c2fc"}, "from": "Agence Nationale de la Recherche (ANR)", "to": "Centre de Recherche en Acquisition et Traitement de l\u0027Image pour la Sant\u00e9", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Canadian Institutes of Health Research", "to": "University of British Columbia", "value": 1.0, "width": 1.0}, {"color": {"color": "#fb7e81", "highlight": "#fb7e81", "hover": "#fb7e81"}, "from": "Canadian Institutes of Health Research", "to": "Child and Family Research Institute", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb7b2", "highlight": "#ffb7b2", "hover": "#ffb7b2"}, "from": "COMET program - Competence Centers for Excellent Technologies Center: VASCage (Centre for Promoting Vascular Health in the Ageing Community)", "to": "Universit\u00e4t Innsbruck", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb7b2", "highlight": "#ffb7b2", "hover": "#ffb7b2"}, "from": "Universit\u00e4t Innsbruck", "to": "Johnson \u0026 Johnson Medical Products GmbH", "value": 1.0, "width": 1.0}, {"color": {"color": "#7be141", "highlight": "#7be141", "hover": "#7be141"}, "from": "Portsmouth Hospitals NHS Trust", "to": "Department of Health", "value": 1.0, "width": 1.0}, {"color": {"color": "#fecdab", "highlight": "#fecdab", "hover": "#fecdab"}, "from": "Biotechnology and Biological Sciences Research Council", "to": "University of York", "value": 1.0, "width": 1.0}, {"color": {"color": "#fecdab", "highlight": "#fecdab", "hover": "#fecdab"}, "from": "Biotechnology and Biological Sciences Research Council", "to": "University of Hull", "value": 1.0, "width": 1.0}, {"color": {"color": "#fecdab", "highlight": "#fecdab", "hover": "#fecdab"}, "from": "Biotechnology and Biological Sciences Research Council", "to": "University of Aberdeen", "value": 1.0, "width": 1.0}, {"color": {"color": "#fecdab", "highlight": "#fecdab", "hover": "#fecdab"}, "from": "Biotechnology and Biological Sciences Research Council", "to": "Liverpool John Moores University", "value": 1.0, "width": 1.0}, {"color": {"color": "#fecdab", "highlight": "#fecdab", "hover": "#fecdab"}, "from": "Biotechnology and Biological Sciences Research Council", "to": "Hull York Medical School", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb7b2", "highlight": "#ffb7b2", "hover": "#ffb7b2"}, "from": "Johnson \u0026 Johnson Medical Products GmbH", "to": "University Hospital Innsbruck", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb7b2", "highlight": "#ffb7b2", "hover": "#ffb7b2"}, "from": "Johnson \u0026 Johnson Medical Products GmbH", "to": "Innsbruck Medical University", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb480", "highlight": "#ffb480", "hover": "#ffb480"}, "from": "H2020 European Research Council", "to": "University of Kent", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb480", "highlight": "#ffb480", "hover": "#ffb480"}, "from": "H2020 European Research Council", "to": "Max Planck Institute for Evolutionary Anthropology", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb480", "highlight": "#ffb480", "hover": "#ffb480"}, "from": "H2020 European Research Council", "to": "Institute for Biodiversity", "value": 1.0, "width": 1.0}, {"color": {"color": "#b5ead7", "highlight": "#b5ead7", "hover": "#b5ead7"}, "from": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "to": "University of T\u00fcbingen", "value": 1.0, "width": 1.0}, {"color": {"color": "#b5ead7", "highlight": "#b5ead7", "hover": "#b5ead7"}, "from": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "to": "University of Hohenheim", "value": 1.0, "width": 1.0}, {"color": {"color": "#b5ead7", "highlight": "#b5ead7", "hover": "#b5ead7"}, "from": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "to": "Staatliches Museum f\u00fcr Naturkunde Stuttgart", "value": 1.0, "width": 1.0}, {"color": {"color": "#b5ead7", "highlight": "#b5ead7", "hover": "#b5ead7"}, "from": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "to": "Institute of Zoology of the Slovak Academy of Sciences", "value": 1.0, "width": 1.0}, {"color": {"color": "#b5ead7", "highlight": "#b5ead7", "hover": "#b5ead7"}, "from": "Deutsche Gesellschaft f\u00fcr Herpetologie und Terrarienkunde (DGHT)", "to": "Institute of Zoology", "value": 1.0, "width": 1.0}, {"color": {"color": "#a2f5a2", "highlight": "#a2f5a2", "hover": "#a2f5a2"}, "from": "Deutsche Forschungsgemeinschaft (DFG), German Research Foundation", "to": "Saarland University", "value": 1.0, "width": 1.0}, {"color": {"color": "#f98fe2", "highlight": "#f98fe2", "hover": "#f98fe2"}, "from": "KAKENHI", "to": "Okayama University", "value": 1.0, "width": 1.0}, {"color": {"color": "#f98fe2", "highlight": "#f98fe2", "hover": "#f98fe2"}, "from": "KAKENHI", "to": "Osaka University", "value": 1.0, "width": 1.0}, {"color": {"color": "#ffb480", "highlight": "#ffb480", "hover": "#ffb480"}, "from": "NCI NIH HHS", "to": "University of California, Los Angeles", "value": 1.0, "width": 1.0}, {"color": {"color": "#b0b0b0", "highlight": "#b0b0b0", "hover": "#b0b0b0"}, "from": "Zweig Memorial Fund for Equine Research", "to": "Cornell University", "value": 1.0, "width": 1.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0.15,
+            "centralGravity": 0.03,
+            "damping": 0.7,
+            "gravitationalConstant": -80.0,
+            "springConstant": 0.03,
+            "springLength": 420
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+                  window.network = network;
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<!-- SciNetX enhanced controls (legacy parity) -->
+<div style="position:sticky; bottom:0; z-index:10; width:100%; padding:10px; font-family:Arial,sans-serif; font-size:12px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; background:#f5f5f5; border-top:1px solid #ccc;">
+  <!-- Search / Jump / Community -->
+  <input title="Search by label" id="nodeSearch" type="text" placeholder="Search node label" style="width:180px;padding:6px;" onkeyup="filterNodeList()"/>
+  <select title="Jump to node" id="nodeSelect" onchange="selectNode()" style="padding:6px; min-width:180px;">
+    <option value="">Jump to node…</option>
+  </select>
+  <select multiple title="Filter by community" id="communityFilter" onchange="filterCommunity()" style="padding:6px; min-width:140px;">
+    <option value="__all__">Community: All</option>
+  </select>
+
+  <!-- Palette / Layout / Visibility -->
+  <select title="Palette" id="paletteSelect" onchange="applyPaletteSelect()" style="padding:6px;">
+    <option value="default">Palette: default</option>
+    <option value="classic">Palette: classic</option>
+    <option value="bold">Palette: bold</option>
+    <option value="pastel">Palette: pastel</option>
+    <option value="viridis">Palette: viridis</option>
+    <option value="plasma">Palette: plasma</option>
+    <option value="magma">Palette: magma</option>
+    <option value="inferno">Palette: inferno</option>
+    <option value="colorblind">Palette: colorblind</option>
+    <option value="tableau">Palette: tableau</option>
+    <option value="vivid">Palette: vivid</option>
+    <option value="dark">Palette: dark</option>
+  </select>
+  <label style="display:flex;align-items:center;gap:6px;">Layout
+    <select title="Layout" id="layoutSelect" onchange="applyLayout()" style="padding:6px;">
+      <option value="force">force</option>
+      <option value="circular">circular</option>
+      <option value="grid">grid</option>
+    </select>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="colorblindAid" onchange="toggleColorblindAid()"/> Colorblind aid</label>
+  <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="highContrast" onchange="toggleHighContrast()"/> High contrast</label>
+  <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="focusNeighbors" onchange="toggleFocusNeighbors()"/> Focus neighbors</label>
+
+  <!-- Downloads / Settings -->
+  <select title="Downloads" id="downloadSelect" onchange="handleDownload(this.value)" style="padding:6px;">
+    <option value="">Download…</option>
+    <option value="png">PNG</option>
+    <option value="svg">SVG</option>
+    <option value="pdf">PDF</option>
+  </select>
+  <select title="Settings" id="settingsSelect" onchange="handleSettings(this.value)" style="padding:6px;">
+    <option value="">Settings…</option>
+    <option value="saveSettingsFile">Save UI settings (JSON)</option>
+    <option value="loadSettingsFile">Load UI settings (JSON)</option>
+    <option value="exportPositions">Export positions (JSON)</option>
+    <option value="importPositions">Import positions (JSON)</option>
+    <option value="saveSettingsLocal">Save UI settings (browser)</option>
+    <option value="loadSettingsLocal">Load UI settings (browser)</option>
+  </select>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importPositionsFile(event)"/>
+  <input type="file" id="settingsFile" accept=".json" style="display:none" onchange="importSettingsFile(event)"/>
+
+  <!-- Labels -->
+  <label style="display:flex;align-items:center;gap:4px;">Label size
+    <input id="labelSize" title="Label size" type="number" min="8" max="30" step="1" value="16" style="width:60px;padding:4px;" onchange="applyLabelSize()"/>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;">Node size
+    <input id="nodeSizeFactor" title="Multiply node size" type="number" min="0.1" max="10" step="0.1" value="1" style="width:70px;padding:4px;" />
+    <button onclick="applyNodeSize()" style="padding:4px 6px;">Apply</button>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;">Label mode
+    <select id="labelMode" onchange="applyLabelMode()" style="padding:4px;">
+      <option value="all">All</option>
+      <option value="none">None</option>
+      <option value="top">Top-N by degree</option>
+    </select>
+    <input id="labelTopN" type="number" min="1" max="5000" step="10" value="50" style="width:70px;padding:4px;" onchange="applyLabelMode()"/>
+  </label>
+
+  <!-- Filters -->
+  <label style="display:flex;align-items:center;gap:4px;">Min edge w
+    <input id="edgeThresh" title="Hide edges below weight" type="number" min="1" step="1" value="1" style="width:60px;padding:4px;" onchange="applyEdgeThreshold()"/>
+  </label>
+  <label style="display:flex;align-items:center;gap:4px;">Top nodes (value)
+    <input id="nodeTopN" title="Show top-N nodes by value/degree proxy" type="number" min="0" step="10" value="" style="width:70px;padding:4px;" />
+    <button onclick="applyNodeTopN()" style="padding:4px 6px;">Apply</button>
+  </label>
+
+  <!-- Physics / View -->
+  <button title="Fit view" onclick="fitView()" style="padding:6px 8px;">Fit</button>
+  <button title="Reset positions/zoom" onclick="resetView()" style="padding:6px 8px;">Reset</button>
+  <button title="Stabilize once then freeze" onclick="stabilizeFreeze()" style="padding:6px 8px;">Stabilize+Freeze</button>
+  <button title="Toggle physics" onclick="togglePhysics()" style="padding:6px 8px;">Physics</button>
+
+  <!-- Zoom / Theme -->
+  <span>Zoom:</span>
+  <button title="Zoom in" onclick="zoomStep(0.1)" style="padding:6px 8px;">+</button>
+  <button title="Zoom out" onclick="zoomStep(-0.1)" style="padding:6px 8px;">-</button>
+  <input id="zoomInput" type="number" step="0.1" value="1.0" style="width:70px;padding:4px;" onchange="applyZoom()"/>
+  <select id="themeToggle" title="Theme" onchange="toggleTheme()" style="padding:6px;">
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+
+  <!-- Help / Legend / Status -->
+  <button title="Show help" onclick="toggleHelp(true)" style="padding:6px 8px;">Help</button>
+  <div id="legend" style="display:flex; gap:6px; flex-wrap:wrap; margin-left:6px;"></div>
+  <div id="statusChip" style="margin-left:auto; padding:4px 8px; border:1px solid #ccc; border-radius:12px; background:#fff; font-size:11px;">--</div>
+</div>
+<div id="helpOverlay" style="display:none; position:fixed; top:40px; right:40px; max-width:420px; background:#fff; border:1px solid #ccc; box-shadow:0 2px 8px rgba(0,0,0,0.2); padding:12px; z-index:20; font-size:12px; line-height:1.4;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+    <strong>Network help</strong>
+    <button onclick="toggleHelp(false)" style="padding:4px 6px;">Close</button>
+  </div>
+  <ul style="padding-left:18px; margin:0;">
+    <li><strong>Palette</strong>: recolor communities; “default” mirrors the initial PyVis colors; colorblind aid switches palette + high contrast.</li>
+    <li><strong>Layout</strong>: force (physics), circular (ring), grid (fixed grid). Switching re-applies colors/labels.</li>
+    <li><strong>Physics</strong>: toggle simulation; Stabilize+Freeze runs briefly then turns physics off.</li>
+    <li><strong>Edge weight</strong>: hide edges below the numeric threshold.</li>
+    <li><strong>Focus neighbors</strong>: hide everything except the selected node and neighbors (uncheck to clear).</li>
+    <li><strong>Labels</strong>: set size; show/hide; top-N labels by degree proxy (value).</li>
+    <li><strong>Downloads</strong>: PNG/SVG/PDF; export/import positions.</li>
+    <li><strong>Settings</strong>: save/load UI settings (browser or JSON).</li>
+    <li><strong>Theme/zoom</strong>: light/dark toggle, zoom controls, fit/reset.</li>
+  </ul>
+</div>
+<script type="text/javascript">
+let _initialPositions = null;
+let _initialView = null;
+let _allNodesForSelect = [];
+let _commNodesMap = {};
+let _theme = 'light';
+let _physicsOn = true;
+let _nodeSize = 14;
+let _edgeThreshold = 1;
+let _lastPalette = 'default';
+let _statusCounts = '';
+const _visDefaultColors = ["#97c2fc","#fb7e81","#7be141","#ffa807","#eb7df4","#c0c0c0","#c2fabc","#fecdab","#b5ead7","#ffdac1","#ffb7b2","#ff9aa2","#c7ceea","#ffb480","#9ad0f5","#f98fe2","#a2f5a2","#ffb480","#b0b0b0","#4cc9f0"];
+const _palettes = {
+  default: _visDefaultColors.slice(),
+  classic: ["#97c2fc","#fb7e81","#6ad56b","#c17aff","#f7d35c","#9ad0f5","#f98fe2","#a2f5a2","#ffb480","#b0b0b0","#4cc9f0","#f72585","#7209b7","#3a0ca3","#4361ee","#4c956c","#ffba08","#ff6d00","#ef476f","#118ab2"],
+  bold:    ["#3366cc","#dc3912","#ff9900","#109618","#990099","#0099c6","#dd4477","#66aa00","#b82e2e","#316395","#4cc9f0","#f72585","#7209b7","#3a0ca3","#4361ee","#4c956c","#ffba08","#ff6d00","#ef476f","#118ab2"],
+  pastel:  ["#aec7e8","#ffbb78","#98df8a","#c5b0d5","#f7b6d2","#c7e9c0","#ffdea6","#b3b3b3","#c49c94","#c6dbef","#c4e5f2","#f7c0db","#d8c2f0","#c7d4f6","#c6f0e1","#f6e3c6","#ffd8b5","#e5e5e5","#e0c7b7","#d9e3f5"],
+  viridis: ["#440154","#482777","#3e4989","#31688e","#26828e","#1f9e89","#35b779","#6ece58","#b5de2b","#fde725","#3a0f70","#453781","#375a8c","#2f6f8e","#277f8e","#1f968b","#32b67a","#73d055","#b8de29","#e7e419"],
+  plasma:  ["#0d0887","#4c02a1","#7e03a8","#a31e9a","#c43b82","#dd5e66","#f48849","#febd2a","#f0f921","#fac228","#f98e09","#e16462","#b12a90","#7201a8","#41049d","#2f0f6b","#2f1a4f","#481467","#5b136e","#7d1a6c"],
+  magma:   ["#000004","#1b0c41","#4f0a6d","#7c1d6f","#a42c60","#c43c4e","#de614d","#f48861","#fbaa82","#fcfdbf","#3b0f70","#5c1f79","#7e2f7f","#a23f82","#c6517f","#de6d73","#f48861","#f9a065","#fcb97d","#f7d6af"],
+  inferno: ["#000004","#1b0c41","#4a0c6b","#781c6d","#a52c60","#cc3f4a","#e55c30","#f7841d","#fdca26","#f9f87a","#3d0f71","#59157c","#731f82","#8c2981","#a3347e","#ba436d","#d55353","#ed6925","#fb9b06","#f6d746"],
+  colorblind: ["#0072B2","#E69F00","#009E73","#D55E00","#CC79A7","#F0E442","#56B4E9","#000000","#999999","#117733","#332288","#88CCEE","#DDCC77","#CC6677","#882255","#44AA99","#DDDDDD","#AA4499","#6699CC","#AA4466"],
+  tableau: ["#4E79A7","#F28E2B","#E15759","#76B7B2","#59A14F","#EDC948","#B07AA1","#FF9DA7","#9C755F","#BAB0AC","#0D3B66","#F95738","#EE964B","#F4D35E","#95B8D1","#3D5A80","#98C1D9","#E0FBFC","#EE6C4D","#293241"],
+  vivid: ["#e58606","#5d69b1","#52bca3","#99c945","#cc61b0","#24796c","#daa51b","#2f8ac4","#764e9f","#ed645a","#cc3a8e","#a5aa99","#0b775e","#c93312","#f2b701","#3b9ab2","#e1a11a","#b40f20","#5c4d7d","#00a9a7"],
+  dark: ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666","#8dd3c7","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#bc80bd","#ccebc5","#ffed6f","#1f78b4","#b2df8a"]
+};
+const _colors = {
+  light: {bg: '#ffffff', font: '#111111'},
+  dark:  {bg: '#111111', font: '#f5f5f5'}
+};
+let _paletteName = 'default';
+function _paletteList(){return _palettes[_paletteName] || _palettes.default;}
+function setStatus(msg){const chip=document.getElementById('statusChip'); if(!chip)return; const suffix=_statusCounts?` | ${_statusCounts}`:''; chip.textContent=msg+suffix;}
+function hideLoadingBar(){
+  const lb = document.getElementById('loadingBar');
+  if (!lb) return;
+  try { lb.style.opacity = 0; } catch(e){}
+  try { setTimeout(function () { try { lb.style.display = 'none'; } catch(e){} }, 250); } catch(e){}
+}
+function initControls(){
+  if(!window.network) return;
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  const comms = [...new Set(nodes.map(n => n.group).filter(g => g!==undefined && g!==null))];
+  _statusCounts = `Nodes: ${nodes.length} | Edges: ${edges.length} | Comm: ${comms.length}`;
+  setStatus('Initializing...');
+  try {
+    if (!_initialColorMap) {
+      if (window._groupColors && Object.keys(window._groupColors).length) {
+        _initialColorMap = {...window._groupColors};
+      }
+      if (!_initialColorMap || !Object.keys(_initialColorMap).length) {
+        const byGroup = {};
+        if (network.options && network.options.groups) {
+          Object.keys(network.options.groups).forEach(g => {
+            const cfg = network.options.groups[g];
+            if (cfg && cfg.color) {
+              if (typeof cfg.color === 'string') byGroup[g] = cfg.color;
+              if (cfg.color.background) byGroup[g] = cfg.color.background;
+            }
+          });
+        }
+        if (Object.keys(byGroup).length) _initialColorMap = byGroup;
+      }
+      if (!_initialColorMap || !Object.keys(_initialColorMap).length) {
+        const byGroup = {};
+        nodes.forEach(n => {
+          const gKey = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+          let c = null;
+          if (n.color) {
+            if (typeof n.color === 'string') c = n.color;
+            if (!c && n.color.background) c = n.color.background;
+            if (!c && n.color.color) c = n.color.color;
+          }
+          if (c && !byGroup[gKey]) byGroup[gKey] = c;
+        });
+        if (Object.keys(byGroup).length) _initialColorMap = byGroup;
+      }
+      if (!_initialColorMap || !Object.keys(_initialColorMap).length) {
+        const byGroup = {};
+        const sortedGroups = comms.slice().sort((a,b)=> {
+          const na=Number(a), nb=Number(b);
+          const aNum=!isNaN(na), bNum=!isNaN(nb);
+          if (aNum && bNum) return na-nb;
+          if (aNum) return -1;
+          if (bNum) return 1;
+          return (''+a).localeCompare(''+b);
+        });
+        sortedGroups.forEach((g, idx) => {
+          byGroup[String(g)] = _visDefaultColors[idx % _visDefaultColors.length];
+        });
+        _initialColorMap = byGroup;
+      }
+    }
+  } catch(e){}
+  const sel = document.getElementById('communityFilter');
+  comms.sort((a,b)=>a-b).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.text = 'Community ' + c;
+    sel.appendChild(opt);
+  });
+  _allNodesForSelect = nodes.slice().sort((a,b)=> (''+a.label).localeCompare(''+b.label));
+  _commNodesMap = {};
+  nodes.forEach(n => {
+    const c = (n.group === undefined || n.group === null) ? "__none__" : n.group;
+    if (!_commNodesMap[c]) _commNodesMap[c] = [];
+    _commNodesMap[c].push(n);
+  });
+  try {
+    const byGroup = {};
+    nodes.forEach(n => {
+      let c = null;
+      if (n.color) {
+        if (typeof n.color === 'string') c = n.color;
+        if (!c && n.color.background) c = n.color.background;
+        if (!c && n.color.color) c = n.color.color;
+      }
+      const g = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+      if (c && !byGroup[g]) byGroup[g] = c;
+    });
+    if (Object.keys(byGroup).length) {
+      _initialColorMap = byGroup;
+    }
+  } catch(e){}
+  try {
+    const cf = document.getElementById('communityFilter');
+    if (cf && cf.options.length) {
+      Array.from(cf.options).forEach(o => { o.selected = (o.value === '__all__'); });
+    }
+  } catch(e){}
+  populateNodeSelect(_allNodesForSelect);
+  try {
+    const ps = document.getElementById('paletteSelect');
+    if (ps) ps.value = _paletteName;
+    applyPaletteSelect();
+  } catch(e) { console.log('palette init failed', e); }
+  try {
+    _initialPositions = network.getPositions();
+    _initialView = {pos: network.getViewPosition(), scale: network.getScale()};
+  } catch(e){}
+  buildLegend(nodes);
+  colorEdgesBySource(nodes, edges);
+  applyTheme(_theme, true);
+  try {
+    const ls = document.getElementById('layoutSelect');
+    if (ls) ls.value = 'force';
+    applyLayout();
+  } catch(e){}
+  try {
+    network.once('stabilized', () => {
+      colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+      buildLegend(network.body.data.nodes.get());
+      setStatus('Ready');
+    });
+    network.on && network.on('stabilizationProgress', (p)=> setStatus(`Stabilizing ${p.iterations||0}/${p.total||0}`));
+    network.on && network.on('stabilizationIterationsDone', ()=> { hideLoadingBar(); setStatus('Physics running'); });
+    network.on && network.on('stabilized', ()=> { hideLoadingBar(); setStatus('Ready'); });
+    network.on("selectNode", () => {
+      const cb = document.getElementById('focusNeighbors');
+      if (cb && cb.checked) toggleFocusNeighbors(true);
+    });
+    network.on("deselectNode", () => {
+      const cb = document.getElementById('focusNeighbors');
+      if (cb && cb.checked) toggleFocusNeighbors(true);
+    });
+  } catch(e){}
+  applyLabelSize();
+  applyLabelMode();
+  const palSel = document.getElementById('paletteSelect');
+  if (palSel) palSel.value = _paletteName;
+  setStatus('Ready');
+}
+function buildLegend(nodes) {
+  const legend = document.getElementById('legend');
+  legend.innerHTML = '';
+  const isDefaultColor = (c) => {
+    if (!c) return true;
+    const lc = String(c).toLowerCase();
+    return lc === '#97c2fc' || lc === 'rgb(151,194,252)' || lc === 'rgba(151,194,252,1)';
+  };
+  const fallbackColor = (g) => {
+    const gi = Number(g);
+    const p = _paletteList();
+    return Number.isFinite(gi) ? p[gi % p.length] : p[0];
+  };
+  const buckets = {};
+  const pickGroupColor = (g) => {
+    const gKey = String(g);
+    if (window._groupColors && window._groupColors[gKey]) return window._groupColors[gKey];
+    const optsGroup = network && network.options && network.options.groups && network.options.groups[gKey];
+    const visGroup = network && network.groups && network.groups.groups && network.groups.groups[gKey];
+    const candidates = [];
+    const pushColor = (col) => { if (col) candidates.push(col); };
+    if (optsGroup && optsGroup.color) {
+      if (typeof optsGroup.color === 'string') pushColor(optsGroup.color);
+      if (optsGroup.color.background) pushColor(optsGroup.color.background);
+      if (optsGroup.color.border) pushColor(optsGroup.color.border);
+    }
+    if (visGroup && visGroup.color) {
+      if (typeof visGroup.color === 'string') pushColor(visGroup.color);
+      if (visGroup.color.background) pushColor(visGroup.color.background);
+      if (visGroup.color.border) pushColor(visGroup.color.border);
+    }
+    return candidates.length ? candidates[0] : null;
+  };
+  nodes.forEach(n => {
+    if (n.group === undefined || n.group === null) return;
+    const g = n.group;
+    if (!buckets[g]) buckets[g] = {};
+    let c = null;
+    c = pickGroupColor(g);
+    if (!c && n.color) {
+      if (typeof n.color === 'string') c = n.color;
+      if (!c && n.color.background) c = n.color.background;
+      if (!c && n.color.color) c = n.color.color;
+      if (!c && n.color.border) c = n.color.border;
+      if (!c && n.color.highlight) c = n.color.highlight;
+    }
+    if (!c) c = fallbackColor(g);
+    buckets[g][c] = (buckets[g][c] || 0) + 1;
+  });
+  const chosen = {};
+  Object.keys(buckets).forEach(g => {
+    const entries = Object.entries(buckets[g]);
+    const nonDefault = entries.filter(([c]) => !isDefaultColor(c));
+    const pick = (nonDefault.length ? nonDefault : entries).sort((a,b)=>b[1]-a[1])[0];
+    chosen[g] = pick ? pick[0] : fallbackColor(g);
+  });
+  Object.keys(chosen).sort((a,b)=>a-b).forEach(g => {
+    const sw = document.createElement('span');
+    sw.style.display = 'inline-flex';
+    sw.style.alignItems = 'center';
+    sw.style.gap = '3px';
+    sw.innerHTML = '<span style="width:10px;height:10px;display:inline-block;background:'+chosen[g]+';border:1px solid #999;"></span><span style="font-size:11px;">C'+g+'</span>';
+    legend.appendChild(sw);
+  });
+  try {
+    const chip = document.getElementById('statusChip');
+    if (chip && window.network) {
+      const nodesCount = window.network.body.data.nodes.length;
+      const edgesCount = window.network.body.data.edges.length;
+      const sel = document.getElementById('communityFilter');
+      const vals = sel ? Array.from(sel.selectedOptions || []).map(o => o.value) : [];
+      const commLabel = (!vals.length || vals.includes('__all__')) ? 'All' : vals.join(',');
+      chip.textContent = `Nodes: ${nodesCount} | Edges: ${edgesCount} | Comm: ${commLabel}`;
+    }
+  } catch(e){}
+}
+function searchNode() {
+  const q = (document.getElementById('nodeSearch').value || '').toLowerCase();
+  if (!q || !window.network) return;
+  const nodes = network.body.data.nodes.get();
+  const hit = nodes.find(n => (n.label || n.id || '').toLowerCase().includes(q));
+  if (hit) {
+    network.selectNodes([hit.id]);
+    network.focus(hit.id, {scale:1.2});
+  }
+}
+function fitView() { if (window.network) network.fit(); }
+function resetView() {
+  if (!window.network) return;
+  if (_initialPositions) {
+    Object.keys(_initialPositions).forEach(id => {
+      const p = _initialPositions[id];
+      if (p && p.x !== undefined && p.y !== undefined) network.moveNode(id, p.x, p.y);
+    });
+  }
+  if (_initialView) {
+    network.moveTo({position: _initialView.pos, scale: _initialView.scale});
+  } else {
+    network.fit();
+  }
+}
+function zoomStep(delta) {
+  if (!window.network) return;
+  const current = network.getScale();
+  const target = Math.max(0.1, current + delta);
+  network.moveTo({scale: target});
+  const zi = document.getElementById('zoomInput'); zi.value = target.toFixed(2);
+}
+function applyZoom() {
+  if (!window.network) return;
+  const zi = document.getElementById('zoomInput');
+  let target = parseFloat(zi.value);
+  if (isNaN(target) || target <= 0) target = 1.0;
+  network.moveTo({scale: target});
+}
+function downloadPNG() {
+  try {
+    const canvas = document.querySelector('canvas');
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'network.png';
+    link.click();
+  } catch(e) { console.log('png download failed', e); }
+}
+function downloadSVG() {
+  try {
+    const canvas = document.querySelector('canvas');
+    const png = canvas.toDataURL('image/png');
+    const w = canvas.width, h = canvas.height;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><image href="${png}" width="${w}" height="${h}"/></svg>`;
+    const blob = new Blob([svg], {type:'image/svg+xml'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'network.svg';
+    link.click();
+  } catch(e) { console.log('svg download failed', e); }
+}
+function downloadPDF() {
+  try {
+    const canvas = document.querySelector('canvas');
+    const png = canvas.toDataURL('image/png');
+    const w = window.open('');
+    if (w) {
+      w.document.write('<html><head><title>Network</title></head><body style="margin:0;"><img src="'+png+'" style="width:100%;"></body></html>');
+      w.document.close();
+      w.focus();
+      setTimeout(()=>{w.print();}, 500);
+    }
+  } catch(e) { console.log('pdf download failed', e); }
+}
+function handleSettings(val) {
+  if (!val) return;
+  if (val === 'saveSettingsFile') {
+    saveSettingsToFile();
+  } else if (val === 'loadSettingsFile') {
+    const sf = document.getElementById('settingsFile');
+    if (sf) sf.click();
+  } else if (val === 'exportPositions') {
+    exportPositions();
+  } else if (val === 'importPositions') {
+    const imp = document.getElementById('importFile');
+    if (imp) imp.click();
+  } else if (val === 'saveSettingsLocal') {
+    saveSettings();
+  } else if (val === 'loadSettingsLocal') {
+    loadSettings();
+  }
+  const sel = document.getElementById('settingsSelect');
+  if (sel) sel.value = '';
+}
+function toggleHelp(show) {
+  const el = document.getElementById('helpOverlay');
+  if (!el) return;
+  el.style.display = show ? 'block' : 'none';
+}
+function downloadJSON(data, filename) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+function _collectSettings() {
+  return {
+    palette: (document.getElementById('paletteSelect')||{}).value || 'default',
+    layout: (document.getElementById('layoutSelect')||{}).value || 'force',
+    theme: (document.getElementById('themeToggle')||{}).value || 'light',
+    labelSize: (document.getElementById('labelSize')||{}).value || '16',
+    labelMode: (document.getElementById('labelMode')||{}).value || 'all',
+    labelTopN: (document.getElementById('labelTopN')||{}).value || '50',
+    edgeThresh: (document.getElementById('edgeThresh')||{}).value || '1',
+    highContrast: !!(document.getElementById('highContrast')||{}).checked,
+    colorblindAid: !!(document.getElementById('colorblindAid')||{}).checked,
+    showLabels: !!(document.getElementById('toggleLabels')||{}).checked,
+    focusNeighbors: !!(document.getElementById('focusNeighbors')||{}).checked,
+  };
+}
+function _applySettingsObject(s) {
+  const setVal = (id, val) => { const el=document.getElementById(id); if (el && val!==undefined) el.value = val; };
+  const setChk = (id, val) => { const el=document.getElementById(id); if (el && val!==undefined) el.checked = !!val; };
+  setVal('paletteSelect', s.palette);
+  setVal('layoutSelect', s.layout);
+  setVal('themeToggle', s.theme);
+  setVal('labelSize', s.labelSize);
+  setVal('labelMode', s.labelMode);
+  setVal('labelTopN', s.labelTopN);
+  setVal('edgeThresh', s.edgeThresh);
+  setChk('highContrast', s.highContrast);
+  setChk('colorblindAid', s.colorblindAid);
+  setChk('toggleLabels', s.showLabels);
+  setChk('focusNeighbors', false);
+  applyPaletteSelect();
+  applyLayout();
+  applyLabelSize();
+  applyLabelMode();
+  applyEdgeThreshold();
+  toggleTheme();
+  if (s.showLabels !== undefined) toggleLabels();
+  if (s.highContrast !== undefined) toggleHighContrast();
+  if (s.colorblindAid !== undefined) toggleColorblindAid();
+}
+function saveSettingsToFile() {
+  const settings = _collectSettings();
+  downloadJSON(settings, 'network_ui_settings.json');
+  setStatus('Settings saved (file)');
+}
+function importSettingsFile(evt) {
+  const file = evt.target.files && evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result || "{}");
+      _applySettingsObject(data);
+      setStatus('Settings loaded (file)');
+    } catch(err) { setStatus('Load failed'); }
+  };
+  reader.readAsText(file);
+}
+function saveSettings() {
+  if (!window.localStorage) { setStatus('No localStorage'); return; }
+  try {
+    const settings = _collectSettings();
+    localStorage.setItem('pyvis_ui_settings', JSON.stringify(settings));
+    setStatus('Settings saved');
+  } catch(e){ setStatus('Save failed'); console.log('saveSettings failed', e); }
+}
+function loadSettings() {
+  if (!window.localStorage) { setStatus('No localStorage'); return; }
+  try {
+    const raw = localStorage.getItem('pyvis_ui_settings');
+    if (!raw) { setStatus('No saved settings'); return; }
+    const s = JSON.parse(raw);
+    _applySettingsObject(s);
+    setStatus('Settings loaded');
+  } catch(e){ setStatus('Load failed'); console.log('loadSettings failed', e); }
+}
+function importPositionsFile(evt) {
+  const file = evt.target.files && evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result || "{}");
+      const posMap = data.positions ? data.positions : data;
+      Object.keys(posMap || {}).forEach(id => {
+        const p = posMap[id];
+        if (p && p.x !== undefined && p.y !== undefined) {
+          network.moveNode(id, p.x, p.y);
+        }
+      });
+      if (data.view && data.view.pos && data.view.scale) {
+        try { network.moveTo({position: data.view.pos, scale: data.view.scale}); } catch(err){}
+      }
+    } catch(err){}
+  };
+  reader.readAsText(file);
+}
+function togglePhysics() {
+  _physicsOn = !_physicsOn;
+  try {
+    network.setOptions({physics:{enabled:_physicsOn}});
+  } catch(e){}
+}
+function applyLabelSize() {
+  const inp = document.getElementById('labelSize');
+  const sz = parseInt(inp.value, 10);
+  if (isNaN(sz) || sz <= 0) return;
+  _nodeSize = sz;
+  try {
+    network.setOptions({nodes:{font:{size:_nodeSize}}});
+    const nodes = network.body.data.nodes.get();
+    const upd = nodes.map(n => ({...n, font:{...(n.font||{}), size:_nodeSize}}));
+    network.body.data.nodes.update(upd);
+  } catch(e){}
+}
+function applyNodeSize() {
+  const inp = document.getElementById('nodeSizeFactor');
+  const factor = parseFloat(inp.value);
+  if (!window.network || !isFinite(factor)) return;
+  const nodes = network.body.data.nodes.get();
+  const upd = nodes.map(n => {
+    const base = n._origSize || n.size || n.value || 10;
+    const _orig = n._origSize || base;
+    const newSize = _orig * factor;
+    return {...n, _origSize: _orig, size: newSize, value: newSize};
+  });
+  network.body.data.nodes.update(upd);
+  try { network.redraw(); } catch(e){}
+}
+function applyEdgeThreshold() {
+  const inp = document.getElementById('edgeThresh');
+  const thr = parseInt(inp.value, 10);
+  if (isNaN(thr) || thr < 1) return;
+  _edgeThreshold = thr;
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  const eVis = edges.map(e => {
+    const show = (e.value || e.weight || 1) >= _edgeThreshold;
+    return {...e, hidden: !show};
+  });
+  network.body.data.edges.update(eVis);
+}
+function applyNodeTopN() {
+  if (!window.network) return;
+  const inp = document.getElementById('nodeTopN');
+  const top = parseInt(inp.value, 10);
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  if (isNaN(top) || top <= 0) {
+    const nAll = nodes.map(n => ({...n, hidden:false}));
+    const eAll = edges.map(e => ({...e, hidden:false}));
+    network.body.data.nodes.update(nAll);
+    network.body.data.edges.update(eAll);
+    return;
+  }
+  const scored = nodes.map(n => ({id:n.id, score: Number(n.value || 0) || 0}));
+  scored.sort((a,b)=>b.score - a.score);
+  const keep = new Set(scored.slice(0, top).map(s => s.id));
+  const nUpd = nodes.map(n => ({...n, hidden: !keep.has(n.id)}));
+  const eUpd = edges.map(e => ({...e, hidden: !(keep.has(e.from) && keep.has(e.to))}));
+  network.body.data.nodes.update(nUpd);
+  network.body.data.edges.update(eUpd);
+}
+function exportPositions() {
+  try {
+    const data = {
+      positions: network.getPositions(),
+      view: {pos: network.getViewPosition(), scale: network.getScale()}
+    };
+    downloadJSON(data, 'network_positions.json');
+  } catch(e){ console.log('export failed', e); }
+}
+function selectNode() {
+  const val = document.getElementById('nodeSelect').value;
+  if (!val || !window.network) return;
+  network.selectNodes([val]);
+  network.focus(val, {scale:1.2});
+}
+function populateNodeSelect(list) {
+  const nodeSel = document.getElementById('nodeSelect');
+  nodeSel.innerHTML = '<option value=\"\">Jump to node…</option>';
+  list.forEach(n => {
+    const opt = document.createElement('option');
+    opt.value = n.id;
+    opt.text = n.label || n.id;
+    nodeSel.appendChild(opt);
+  });
+}
+function filterNodeList() {
+  const q = (document.getElementById('nodeSearch').value || '').toLowerCase();
+  if (!_allNodesForSelect) return;
+  const cf = document.getElementById('communityFilter');
+  const commVals = cf ? Array.from(cf.selectedOptions || []).map(o => o.value) : [];
+  const showAll = (!commVals.length || commVals.includes('__all__'));
+  let base = _allNodesForSelect;
+  if (!showAll) {
+    const set = new Set(commVals);
+    base = base.filter(n => set.has(String(n.group)));
+  }
+  const filtered = base.filter(n => (n.label || n.id || '').toLowerCase().includes(q));
+  populateNodeSelect(filtered);
+}
+function filterCommunity() {
+  if (!window.network) return;
+  const sel = document.getElementById('communityFilter');
+  const vals = sel ? Array.from(sel.selectedOptions || []).map(o => o.value) : [];
+  const showAll = (!vals.length || vals.includes('__all__'));
+  const nodes = network.body.data.nodes.get();
+  const edges = network.body.data.edges.get();
+  const selectedSet = new Set(vals);
+  const nVis = nodes.map(n => {
+    const gval = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+    const show = showAll || selectedSet.has(gval);
+    return {...n, hidden: !show};
+  });
+  const keepIds = new Set(nVis.filter(n => !n.hidden).map(n => n.id));
+  const eVis = edges.map(e => {
+    const show = keepIds.has(e.from) && keepIds.has(e.to);
+    return {...e, hidden: !show};
+  });
+  network.body.data.nodes.update(nVis);
+  network.body.data.edges.update(eVis);
+  let list = [];
+  if (_commNodesMap) {
+    if (showAll || selectedSet.has('__none__')) {
+      Object.keys(_commNodesMap).forEach(k => { list = list.concat(_commNodesMap[k]); });
+    } else {
+      Object.keys(_commNodesMap).forEach(k => {
+        if (selectedSet.has(String(k))) list = list.concat(_commNodesMap[k]);
+      });
+    }
+  }
+  list = list.slice().sort((a,b)=> (''+a.label).localeCompare(''+b.label));
+  populateNodeSelect(list);
+  filterNodeList();
+  colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  buildLegend(network.body.data.nodes.get());
+}
+function applyTheme(mode, doRecolor=true) {
+  _theme = mode;
+  const colors = _colors[mode] || _colors.light;
+  try {
+    updateNodeFonts(colors.font);
+    network.setOptions({
+      nodes:{font:{color:colors.font, background: 'rgba(0,0,0,0)'}},
+      edges:{color:{inherit:'from', opacity:0.6}}
+    });
+  } catch(e){}
+  try {
+    const canvas = document.querySelector('canvas');
+    if (canvas && canvas.parentElement) canvas.parentElement.style.background = colors.bg;
+    document.body && (document.body.style.background = colors.bg);
+    const legend = document.getElementById('legend');
+    if (legend) legend.style.color = colors.font;
+  } catch(e){}
+  if (doRecolor && window.network) {
+    colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  }
+}
+function toggleTheme() {
+  const sel = document.getElementById('themeToggle');
+  const mode = sel.value || 'light';
+  applyTheme(mode);
+}
+function applyLayout() {
+  if (!window.network) return;
+  const sel = document.getElementById('layoutSelect');
+  const mode = sel ? sel.value : 'force';
+  try {
+    const cb = document.getElementById('focusNeighbors');
+    if (cb) cb.checked = false;
+    toggleFocusNeighbors(false);
+  } catch(e){}
+  const nodes = network.body.data.nodes.get();
+  const idToNode = {};
+  nodes.forEach(n => { idToNode[n.id] = n; });
+  if (mode === 'circular') {
+    const n = Math.max(1, nodes.length);
+    const radius = 300 + Math.min(400, n * 1.5);
+    const updates = nodes.map((node, idx) => {
+      const angle = (2 * Math.PI * idx) / n;
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+      return {...node, x, y, fixed: {x: true, y: true}};
+    });
+    try { network.body.data.nodes.update(updates); } catch(e){}
+    try { network.setOptions({physics:{enabled:false}, layout:{hierarchical:false}}); } catch(e){}
+  } else if (mode === 'grid') {
+    const n = Math.max(1, nodes.length);
+    const cols = Math.ceil(Math.sqrt(n));
+    const spacing = 120;
+    const updates = nodes.map((node, idx) => {
+      const row = Math.floor(idx / cols);
+      const col = idx % cols;
+      const x = col * spacing;
+      const y = row * spacing;
+      return {...node, x, y, fixed: {x: true, y: true}};
+    });
+    try { network.body.data.nodes.update(updates); } catch(e){}
+    try { network.setOptions({physics:{enabled:false}, layout:{hierarchical:false}}); } catch(e){}
+  } else {
+    const updates = nodes.map(node => ({...node, fixed: {x:false, y:false}}));
+    try { network.body.data.nodes.update(updates); } catch(e){}
+    try {
+      if (_initialPositions) {
+        const reset = Object.keys(_initialPositions).map(id => {
+          const pos = _initialPositions[id];
+          const base = idToNode[id] || {id};
+          return {...base, x: pos.x, y: pos.y, fixed: {x:false, y:false}};
+        });
+        network.body.data.nodes.update(reset);
+      }
+      network.setOptions({physics:{enabled:true}, layout:{hierarchical:false}});
+      network.stabilize();
+    } catch(e){}
+  }
+  try { applyPaletteSelect(); } catch(e){}
+  try { applyLabelMode(); } catch(e){}
+  colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  buildLegend(network.body.data.nodes.get());
+}
+function applyPaletteSelect() {
+  const sel = document.getElementById('paletteSelect');
+  const name = sel ? sel.value : 'default';
+  _paletteName = name;
+  let palette = _paletteList();
+  const useInitialMap = (name === 'default') && _initialColorMap && Object.keys(_initialColorMap).length;
+  if (name === 'default' && !useInitialMap) {
+    palette = _visDefaultColors.slice();
+  }
+  const fallbackColor = '#6699cc';
+  if (!window.network) return;
+  const nodes = network.body.data.nodes.get();
+  const borderCol = '#333333';
+  let groupMap = {};
+  if (useInitialMap && name === 'default') {
+    const nodesUpd = nodes.map(n => {
+      const gKey = (n.group === undefined || n.group === null) ? "__none__" : String(n.group);
+      const col = _initialColorMap[gKey] || fallbackColor;
+      const c = {background: col, border: borderCol, highlight: {background: col, border: borderCol}};
+      return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+    });
+    network.body.data.nodes.update(nodesUpd);
+    Object.keys(_commNodesMap || {}).forEach(g => {
+      const gKey = String(g);
+      const col = _initialColorMap[gKey] || fallbackColor;
+      groupMap[g] = {color: {background: col, border: borderCol, highlight: {background: col, border: borderCol}}, borderWidth: 2, borderWidthSelected: 3};
+    });
+    try { network.setOptions({groups: groupMap}); } catch(e){}
+    window._groupColors = {};
+    Object.keys(groupMap).forEach(g => { window._groupColors[g] = groupMap[g].color.background; });
+    colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+    buildLegend(network.body.data.nodes.get());
+    return;
+  } else {
+    const nodeUpdates = nodes.map(n => {
+      const graw = n.group;
+      if (graw === undefined || graw === null || graw === "__none__") {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+      }
+      const gi = Number(graw);
+      if (!Number.isFinite(gi) || gi < 0) {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+      }
+      const gKey = String(graw);
+      const baseCol = palette[gi % palette.length];
+      const col = useInitialMap ? (_initialColorMap[gKey] || baseCol) : baseCol;
+      const c = {background: col, border: borderCol, highlight: {background: col, border: borderCol}};
+      return {...n, color: c, borderWidth: 2, borderWidthSelected: 3};
+    });
+    network.body.data.nodes.update(nodeUpdates);
+    Object.keys(_commNodesMap || {}).forEach(g => {
+      if (g === "__none__") {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        groupMap[g] = {color: c, borderWidth: 2, borderWidthSelected: 3};
+        return;
+      }
+      const gi = Number(g);
+      if (!Number.isFinite(gi) || gi < 0) {
+        const c = {background: fallbackColor, border: borderCol, highlight: {background: fallbackColor, border: borderCol}};
+        groupMap[g] = {color: c, borderWidth: 2, borderWidthSelected: 3};
+        return;
+      }
+      const col = palette[gi % palette.length];
+      const c = {background: col, border: borderCol, highlight: {background: col, border: borderCol}};
+      groupMap[g] = {color: c, borderWidth: 2, borderWidthSelected: 3};
+    });
+    try { network.setOptions({groups: groupMap}); } catch(e){}
+  }
+  window._groupColors = {};
+  Object.keys(groupMap).forEach(g => { window._groupColors[g] = groupMap[g].color.background; });
+  colorEdgesBySource(network.body.data.nodes.get(), network.body.data.edges.get());
+  buildLegend(network.body.data.nodes.get());
+  return;
+}
+function updateNodeFonts(color) {
+  try {
+    const nodes = network.body.data.nodes.get();
+    const upd = nodes.map(n => ({
+      ...n,
+      font: {...(n.font || {}), color: color, background: 'rgba(0,0,0,0)'}
+    }));
+    network.body.data.nodes.update(upd);
+  } catch(e){}
+}
+function colorEdgesBySource(nodes, edges) {
+  const colMap = {};
+  nodes.forEach(n => {
+    let c = null;
+    if (n.color) {
+      if (typeof n.color === 'string') c = n.color;
+      if (!c && n.color.background) c = n.color.background;
+      if (!c && n.color.color) c = n.color.color;
+    }
+    if (!c) c = '#97c2fc';
+    colMap[n.id] = c;
+  });
+  const eVis = edges.map(e => {
+    const wRaw = Number(e.value || e.weight || 1);
+    const w = Math.max(1.2, 1.4 * Math.sqrt(isFinite(wRaw) ? wRaw : 1));
+    const col = colMap[e.from] || colMap[e.to] || '#97c2fc';
+    return {...e, width: w, color: {color: col, highlight: col, hover: col}};
+  });
+  try { network.body.data.edges.update(eVis); } catch(e){}
+}
+function handleDownload(kind) {
+  if (!kind) return;
+  if (kind === 'png') downloadPNG();
+  else if (kind === 'svg') downloadSVG();
+  else if (kind === 'pdf') downloadPDF();
+  else if (kind === 'export') exportPositions();
+  else if (kind === 'import') {
+    const inp = document.getElementById('importFile');
+    if (inp) inp.click();
+  }
+  const sel = document.getElementById('downloadSelect');
+  if (sel) sel.value = '';
+}
+function stabilizeFreeze() {
+  if (!window.network) return;
+  try {
+    network.setOptions({physics:{enabled:true, stabilization:{enabled:true, iterations:300}}});
+    if (network.stabilize) network.stabilize();
+    network.once && network.once('stabilizationIterationsDone', () => hideLoadingBar());
+    network.once && network.once('stabilized', () => { hideLoadingBar(); network.setOptions({physics:{enabled:false}}); });
+    setTimeout(hideLoadingBar, 4000);
+  } catch(e){}
+}
+function toggleFocusNeighbors(skipToggle) {
+  const cb = document.getElementById('focusNeighbors');
+  if (!cb || !window.network) return;
+  if (!cb.checked && !skipToggle) {
+    const nodes = network.body.data.nodes.get().map(n => ({...n, hidden:false}));
+    const edges = network.body.data.edges.get().map(e => ({...e, hidden:false}));
+    network.body.data.nodes.update(nodes);
+    network.body.data.edges.update(edges);
+    return;
+  }
+  const sel = network.getSelectedNodes();
+  if (!sel || !sel.length) return;
+  const keep = new Set(sel);
+  const edges = network.body.data.edges.get();
+  edges.forEach(e => {
+    if (keep.has(e.from) || keep.has(e.to)) {
+      keep.add(e.from); keep.add(e.to);
+    }
+  });
+  const nUpd = network.body.data.nodes.get().map(n => ({...n, hidden: !keep.has(n.id)}));
+  const eUpd = edges.map(e => ({...e, hidden: !(keep.has(e.from) && keep.has(e.to))}));
+  network.body.data.nodes.update(nUpd);
+  network.body.data.edges.update(eUpd);
+}
+function toggleLabels() {
+  const cb = document.getElementById('toggleLabels');
+  if (!window.network) return;
+  const show = cb && cb.checked;
+  try {
+    const nodes = network.body.data.nodes.get().map(n => ({...n, label: show ? (n.label || n.id) : ''}));
+    network.body.data.nodes.update(nodes);
+  } catch(e){}
+}
+function applyLabelMode() {
+  if (!window.network) return;
+  const modeSel = document.getElementById('labelMode');
+  const topInp = document.getElementById('labelTopN');
+  const sizeInp = document.getElementById('labelSize');
+  const mode = modeSel ? modeSel.value : 'all';
+  const baseSize = parseInt(sizeInp ? sizeInp.value : '16', 10) || 16;
+  let keep = new Set();
+  if (mode === 'top') {
+    const topN = parseInt(topInp ? topInp.value : '50', 10) || 50;
+    const nodes = network.body.data.nodes.get();
+    const ranked = nodes.map(n => ({id:n.id, score: Number(n.value || 0) || 0}))
+                        .sort((a,b)=>b.score - a.score)
+                        .slice(0, topN);
+    keep = new Set(ranked.map(r => r.id));
+  }
+  try {
+    const nodes = network.body.data.nodes.get().map(n => {
+      const font = {...(n.font || {})};
+      if (mode === 'none') {
+        font.size = 0;
+      } else if (mode === 'top') {
+        font.size = keep.has(n.id) ? baseSize : 0;
+      } else {
+        font.size = baseSize;
+      }
+      return {...n, font};
+    });
+    network.body.data.nodes.update(nodes);
+  } catch(e){}
+}
+
+function toggleHighContrast() {
+  const cb = document.getElementById('highContrast');
+  if (!window.network) return;
+  if (cb && cb.checked) {
+    try {
+      network.setOptions({edges:{color:{color:'#000000'}}, nodes:{font:{color:'#000000'}}});
+      const nodes = network.body.data.nodes.get().map(n => ({...n, font:{...(n.font||{}), color:'#000000'}}));
+      network.body.data.nodes.update(nodes);
+    } catch(e){}
+  } else {
+    applyTheme(_theme, true);
+  }
+}
+function toggleColorblindAid() {
+  const cb = document.getElementById('colorblindAid');
+  const ps = document.getElementById('paletteSelect');
+  const hc = document.getElementById('highContrast');
+  if (!ps) return;
+  if (cb && cb.checked) {
+    _lastPalette = ps.value || 'default';
+    ps.value = 'colorblind';
+    applyPaletteSelect();
+    if (hc) { hc.checked = true; toggleHighContrast(); }
+  } else {
+    if (_lastPalette) ps.value = _lastPalette;
+    applyPaletteSelect();
+    if (hc) { hc.checked = false; toggleHighContrast(); }
+  }
+}
+window.addEventListener('load', initControls);
+</script>
+<!-- End SciNetX enhanced controls -->
+</body>
+</html>

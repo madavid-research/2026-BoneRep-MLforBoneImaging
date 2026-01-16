@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: >-
+  If you use this repository (notebook, data tables, or derived network outputs) in your work,
+  please cite the associated manuscript and this repository.
+title: 2026-BoneRep-MLforBoneImaging
+type: software
+version: 0.1.0
+date-released: "2026-01-16"
+repository-code: https://github.com/madavid128/2026-BoneRep-MLforBoneImaging
+url: https://github.com/madavid128/2026-BoneRep-MLforBoneImaging
+license: BSD-3-Clause
+authors:
+  - family-names: David
+    given-names: Michael A.
+  - family-names: Williams
+    given-names: Kyle G.
+  - family-names: Constantine
+    given-names: Evangelia P.
+  - family-names: Matthias
+    given-names: Julia
+  - family-names: Ferguson
+    given-names: Virginia L.
+  - family-names: Adams
+    given-names: Douglas J.
+
+preferred-citation:
+  type: article
+  title: Demystifying Machine Learning Approaches in Digital Bone Imaging using MicroCT and HRpQCT
+  authors:
+    - family-names: David
+      given-names: Michael A.
+    - family-names: Williams
+      given-names: Kyle G.
+    - family-names: Constantine
+      given-names: Evangelia P.
+    - family-names: Matthias
+      given-names: Julia
+    - family-names: Ferguson
+      given-names: Virginia L.
+    - family-names: Adams
+      given-names: Douglas J.
+  journal: Bone Reports
+  year: 2026
