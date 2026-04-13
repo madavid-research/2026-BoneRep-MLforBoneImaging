@@ -7,7 +7,7 @@
 [![Status](https://img.shields.io/badge/Status-Published-brightgreen)](https://doi.org/10.1016/j.bonr.2026.101911)
 [![Paper Repo](https://img.shields.io/badge/Paper%20Repo-GitHub-black)](https://github.com/madavid-research/2026-BoneRep-MLforBoneImaging)
 
-Repository accompanying the paper. The analysis in `notebooks/MLforBoneImaging.ipynb` generates the results/figures and derived artifacts (CSV outputs and interactive HTML networks).
+Repository accompanying the paper. The analysis in `notebooks/MLforBoneImaging.ipynb` generates the results/figures.
 
 ## Associated paper
 
