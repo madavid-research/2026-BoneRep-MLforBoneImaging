@@ -7,7 +7,7 @@
 
 ### Colab
 
-1) Open: `https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
+1) Open: `https://colab.research.google.com/github/madavid-research/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
 2) Run the first setup code cell.
 3) Click **Runtime → Run all**.
 

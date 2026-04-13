@@ -8,7 +8,7 @@ This repository is intended to be used by opening and running the notebook:
 
 One-click link:
 
-- `https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
+- `https://colab.research.google.com/github/madavid-research/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
 
 In Colab:
 
@@ -36,7 +36,7 @@ Then copy results you care about into Drive, for example:
 
 1) Install Python 3.10+ and Git.
 2) Clone the repo (GitHub → Code → HTTPS URL):
-   - `git clone https://github.com/madavid128/2026-BoneRep-MLforBoneImaging.git`
+   - `git clone https://github.com/madavid-research/2026-BoneRep-MLforBoneImaging.git`
    - `cd 2026-BoneRep-MLforBoneImaging`
    - (Alternative) Download the repository ZIP from GitHub and unzip it, then `cd` into the folder.
 3) Create an environment and install dependencies (recommended: `uv`):

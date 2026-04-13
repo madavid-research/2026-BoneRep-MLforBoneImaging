@@ -7,8 +7,8 @@ title: 2026-BoneRep-MLforBoneImaging
 type: software
 version: 1.0.0
 date-released: "2026-04-13"
-repository-code: https://github.com/madavid128/2026-BoneRep-MLforBoneImaging
-url: https://github.com/madavid128/2026-BoneRep-MLforBoneImaging
+repository-code: https://github.com/madavid-research/2026-BoneRep-MLforBoneImaging
+url: https://github.com/madavid-research/2026-BoneRep-MLforBoneImaging
 license: BSD-3-Clause
 identifiers:
   - type: doi

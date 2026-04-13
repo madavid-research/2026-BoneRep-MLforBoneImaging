@@ -1,11 +1,11 @@
 # 2026-BoneRep-MLforBoneImaging
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/madavid-research/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb)
 [![RRID](https://img.shields.io/badge/RRID-SCR__028186-2ea44f)](https://scicrunch.org/resolver/SCR_028186)
 [![Paper DOI](https://img.shields.io/badge/Paper%20DOI-10.1016%2Fj.bonr.2026.101911-blue)](https://doi.org/10.1016/j.bonr.2026.101911)
-[![Version](https://img.shields.io/badge/Version-1.0.0-orange)](https://github.com/madavid128/2026-BoneRep-MLforBoneImaging/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/Version-1.0.0-orange)](https://github.com/madavid-research/2026-BoneRep-MLforBoneImaging/releases/tag/v1.0.0)
 [![Status](https://img.shields.io/badge/Status-Published-brightgreen)](https://doi.org/10.1016/j.bonr.2026.101911)
-[![Paper Repo](https://img.shields.io/badge/Paper%20Repo-GitHub-black)](https://github.com/madavid128/2026-BoneRep-MLforBoneImaging)
+[![Paper Repo](https://img.shields.io/badge/Paper%20Repo-GitHub-black)](https://github.com/madavid-research/2026-BoneRep-MLforBoneImaging)
 
 Repository accompanying the paper. The analysis in `notebooks/MLforBoneImaging.ipynb` generates the results/figures and derived artifacts (CSV outputs and interactive HTML networks).
 
@@ -17,7 +17,7 @@ Repository accompanying the paper. The analysis in `notebooks/MLforBoneImaging.i
 
 ## Start here
 
-- Open the notebook in Colab: `https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
+- Open the notebook in Colab: `https://colab.research.google.com/github/madavid-research/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
 - Non-coder guide: `docs/START_HERE.md`
 - FAQ: `docs/FAQ.md`
 - Curated “final” reference table: `data/References.csv`
@@ -31,7 +31,7 @@ The link above always points to the latest `main` branch.
 
 For a stable link that never changes, use a GitHub **release tag** or **commit SHA** in the URL, for example:
 
-- `https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/<TAG_OR_COMMIT>/notebooks/MLforBoneImaging.ipynb`
+- `https://colab.research.google.com/github/madavid-research/2026-BoneRep-MLforBoneImaging/blob/<TAG_OR_COMMIT>/notebooks/MLforBoneImaging.ipynb`
 
 ## Jump to figures (in the notebook)
 
@@ -81,7 +81,7 @@ If you need a plain-text citation for the paper, use:
 
 If you need a plain-text repository citation, use:
 
-- David MA, Williams KG, Constantine EP, Matthias J, Ferguson VL, Adams DJ. *2026-BoneRep-MLforBoneImaging* (software). GitHub: `https://github.com/madavid128/2026-BoneRep-MLforBoneImaging`.
+- David MA, Williams KG, Constantine EP, Matthias J, Ferguson VL, Adams DJ. *2026-BoneRep-MLforBoneImaging* (software). GitHub: `https://github.com/madavid-research/2026-BoneRep-MLforBoneImaging`.
 
 ## Software used
 

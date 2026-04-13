@@ -7,7 +7,7 @@ No, not if you use Google Colab. Colab runs the notebook in your browser.
 Start here:
 
 - `docs/START_HERE.md`
-- One-click Colab: `https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
+- One-click Colab: `https://colab.research.google.com/github/madavid-research/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
 
 ## What should I click in Colab?
 

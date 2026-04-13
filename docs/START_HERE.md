@@ -4,7 +4,7 @@ Google Colab runs the notebook in a browser (no local Python install needed).
 
 ## 1) Open the notebook
 
-- `https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
+- `https://colab.research.google.com/github/madavid-research/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb`
 
 ## 2) Choose your path
 
