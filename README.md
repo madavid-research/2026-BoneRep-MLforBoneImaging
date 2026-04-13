@@ -1,14 +1,21 @@
 # 2026-BoneRep-MLforBoneImaging
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/madavid128/2026-BoneRep-MLforBoneImaging/blob/main/notebooks/MLforBoneImaging.ipynb)
+[![DOI](https://img.shields.io/badge/DOI-10.1016%2Fj.bonr.2026.101911-blue)](https://doi.org/10.1016/j.bonr.2026.101911)
+[![RRID](https://img.shields.io/badge/RRID-SCR__028186-2ea44f)](https://scicrunch.org/resolver/SCR_028186)
+[![Paper DOI](https://img.shields.io/badge/Paper%20DOI-10.1016%2Fj.bonr.2026.101911-blue)](https://doi.org/10.1016/j.bonr.2026.101911)
+[![Stable Record](https://img.shields.io/badge/Stable%20Record-v1.0.0-success)](https://github.com/madavid128/2026-BoneRep-MLforBoneImaging/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/Version-1.0.0-orange)](https://github.com/madavid128/2026-BoneRep-MLforBoneImaging/releases/tag/v1.0.0)
+[![Status](https://img.shields.io/badge/Status-Published-brightgreen)](https://doi.org/10.1016/j.bonr.2026.101911)
+[![Paper Repo](https://img.shields.io/badge/Paper%20Repo-GitHub-black)](https://github.com/madavid128/2026-BoneRep-MLforBoneImaging)
 
 Repository accompanying the paper. The analysis in `notebooks/MLforBoneImaging.ipynb` generates the results/figures and derived artifacts (CSV outputs and interactive HTML networks).
 
 ## Associated paper
 
-- Title: *Demystifying Machine Learning Approaches in Digital Bone Imaging using MicroCT and HRpQCT*
-- Authors: Michael A. David, Kyle G. Williams, Evangelia P. Constantine, Julia Matthias, Virginia L. Ferguson, Douglas J. Adams
-- Journal: *Bone Reports* (2026)
+- Citation: David, M. A., Williams, K. G., Constantine, E. P., Matthias, J., Ferguson, V. L., & Adams, D. J. (2026). *Demystifying Machine Learning Approaches in Digital Bone Imaging using MicroCT and HRpQCT*. *Bone Reports*.
+- DOI: https://doi.org/10.1016/j.bonr.2026.101911
+- RRID: SCR_028186
 
 ## Start here
 
@@ -72,7 +79,7 @@ If you only want to view the networks (no coding):
 
 If you need a plain-text citation for the paper, use:
 
-- David MA, Williams KG, Constantine EP, Matthias J, Ferguson VL, Adams DJ. Demystifying Machine Learning Approaches in Digital Bone Imaging using MicroCT and HRpQCT. *Bone Reports*. 2026.
+- David, M. A., Williams, K. G., Constantine, E. P., Matthias, J., Ferguson, V. L., & Adams, D. J. (2026). Demystifying Machine Learning Approaches in Digital Bone Imaging using MicroCT and HRpQCT. Bone Reports. DOI: https://doi.org/10.1016/j.bonr.2026.101911. RRID: SCR_028186.
 
 If you need a plain-text repository citation, use:
 

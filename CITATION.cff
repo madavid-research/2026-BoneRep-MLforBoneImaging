@@ -1,14 +1,21 @@
 cff-version: 1.2.0
 message: >-
   If you use this repository (notebook, data tables, or derived network outputs) in your work,
-  please cite the associated manuscript and this repository.
+  please cite the associated manuscript and this repository. Paper DOI:
+  https://doi.org/10.1016/j.bonr.2026.101911. RRID: SCR_028186.
 title: 2026-BoneRep-MLforBoneImaging
 type: software
-version: 0.1.0
-date-released: "2026-01-16"
+version: 1.0.0
+date-released: "2026-04-13"
 repository-code: https://github.com/madavid128/2026-BoneRep-MLforBoneImaging
 url: https://github.com/madavid128/2026-BoneRep-MLforBoneImaging
 license: BSD-3-Clause
+identifiers:
+  - type: doi
+    value: 10.1016/j.bonr.2026.101911
+  - type: other
+    value: SCR_028186
+    description: RRID
 authors:
   - family-names: David
     given-names: Michael A.
@@ -41,3 +48,4 @@ preferred-citation:
       given-names: Douglas J.
   journal: Bone Reports
   year: 2026
+  doi: 10.1016/j.bonr.2026.101911

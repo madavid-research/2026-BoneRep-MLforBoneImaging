@@ -19,3 +19,7 @@ For local environment setup, see `docs/FOR_CODERS.md`.
 
 - Outputs may differ depending on package versions, platform, and random seeds.
 - For stricter reproduction, install from `requirements.lock` (pinned versions).
+
+## How to cite
+
+- David, M. A., Williams, K. G., Constantine, E. P., Matthias, J., Ferguson, V. L., & Adams, D. J. (2026). Demystifying Machine Learning Approaches in Digital Bone Imaging using MicroCT and HRpQCT. Bone Reports. DOI: https://doi.org/10.1016/j.bonr.2026.101911. RRID: SCR_028186.
