@@ -85,4 +85,4 @@ If you need a plain-text repository citation, use:
 
 ## Software used
 
-This work utilized the SciNetX software to generate the network visualizations used in this repository and the paper. If you are interested in the SciNetX software itself, see `https://github.com/madavid128/SciNetX-Public` for source code and license terms.
+This work utilized the SciNetX software to generate the network visualizations used in this repository and the paper. If you are interested in the SciNetX software itself, see `https://github.com/madavid-research/SciNetX` for source code and license terms.
